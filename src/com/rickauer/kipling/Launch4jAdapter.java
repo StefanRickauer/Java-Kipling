@@ -10,7 +10,7 @@ public class Launch4jAdapter {
 		this.launch4jcInstallLocation = launch4jcInstallLocation;
 	}
 	
-	public void createExe(String configFileLocation) {
+	public void createExecutable(String configFileLocation) {
 		
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
