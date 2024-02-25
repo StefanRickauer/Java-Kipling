@@ -9,10 +9,16 @@ import org.junit.jupiter.api.Test;
 class Launch4jAdapterTest {
 
 	static Launch4jAdapter adapter;
+	static File createdExecutable;
 	
 	@BeforeAll
 	private static void initializeTestData() {
 		adapter = new Launch4jAdapter("C:\\Program Files (x86)\\Launch4j\\launch4jc.exe");
+		createdExecutable = new File("C:\\Users\\noNameForM3\\Documents\\Tests\\kiplingTESTgui\\testGUI.exe");
+		
+		// Make sure files from previous test runs will be deleted before new test run
+		if (createdExecutable.exists())
+			createdExecutable.delete();
 	}
 	@Test
 	void createExeTest() {
@@ -25,7 +31,7 @@ class Launch4jAdapterTest {
 			e.printStackTrace();
 		}
 		
-		File createdExecutable = new File("C:\\Users\\noNameForM3\\Documents\\Tests\\kiplingTESTgui\\testGUI.exe");
+		
 		assertTrue(createdExecutable.exists());
 	}
 
