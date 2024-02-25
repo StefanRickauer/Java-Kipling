@@ -2,8 +2,12 @@ package com.rickauer.kipling;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Launch4jAdapter {
 	
+	private static Logger launch4jAdapterLogger = LogManager.getLogger(Launch4jAdapter.class.getName());
 	private final String launch4jcInstallLocation;
 	
 	public Launch4jAdapter(String launch4jcInstallLocation) {
@@ -12,6 +16,8 @@ public class Launch4jAdapter {
 	
 	public void createExecutable(String configFileLocation) {
 		
+		launch4jAdapterLogger.info("Executing createExecutable()...");
+		
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(launch4jcInstallLocation, configFileLocation);
@@ -19,7 +25,10 @@ public class Launch4jAdapter {
 			
 			
 		} catch (IOException e) {
+			launch4jAdapterLogger.error("createExecutable(String configFileLocation): I/O operation failed.", e);
 			throw new RuntimeException("Error executing '" + launch4jcInstallLocation + " " + configFileLocation + "'.", e);
 		}
+		
+		launch4jAdapterLogger.info("Executed createExecutable().");
 	}
 }
