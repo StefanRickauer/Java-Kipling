@@ -4,13 +4,19 @@ import org.apache.logging.log4j.*;
 
 public class Main {
 	
+	private static final String PROGRAM = "Kipling";
+	private static final String VERSION = "0.05";
+	private static final String PROGRAM_AND_VERSION = PROGRAM + " [Version " + VERSION + "]";
+	
 	private static Logger mainLogger = LogManager.getLogger(Main.class.getName());
+	
 	
 	public static void main(String[] args) {
 		try {
-			mainLogger.info("Starting Kipling...");
+			mainLogger.info(PROGRAM_AND_VERSION);
+			mainLogger.info("Starting ...");
 			// To stuff here
-			mainLogger.info("Finished Kipling.");
+			mainLogger.info("Finished.");
 		} catch (Exception e) {
 			mainLogger.error("Could not finish task.", e);
 		}
