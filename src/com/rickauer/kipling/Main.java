@@ -14,8 +14,10 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			mainLogger.info(PROGRAM_AND_VERSION);
-			mainLogger.info("Starting ...");
-			// To stuff here
+			mainLogger.info("Starting...");
+			mainLogger.info("Calling Launch4J...");
+			// Do stuff here
+			mainLogger.info("Called Launch4J.");
 			mainLogger.info("Finished.");
 		} catch (Exception e) {
 			mainLogger.error("Could not finish task.", e);
