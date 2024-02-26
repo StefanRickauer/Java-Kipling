@@ -21,12 +21,15 @@ public class Launch4jAdapter {
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(launch4jcInstallLocation, configFileLocation);
-			builder.start();
-			
+			Process process = builder.start();
+			process.waitFor();
 			
 		} catch (IOException e) {
 			launch4jAdapterLogger.error("createExecutable(String configFileLocation): I/O operation failed.", e);
 			throw new RuntimeException("Error executing '" + launch4jcInstallLocation + " " + configFileLocation + "'.", e);
+		} catch (InterruptedException e) {
+			launch4jAdapterLogger.error("waitFor(): Thread was interrupted by another thread.", e);
+			throw new RuntimeException("Error executing Process.waitFor()", e);
 		}
 		
 		launch4jAdapterLogger.info("Executed createExecutable().");

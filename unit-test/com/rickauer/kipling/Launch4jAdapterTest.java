@@ -33,16 +33,8 @@ class Launch4jAdapterTest {
 	void createExecutableTest() {
 		
 		launch4jAdapterTestlogger.info("Executing createExecutableTest()...");
+
 		adapter.createExecutable("C:\\Users\\noNameForM3\\Documents\\Tests\\kiplingTESTgui\\config.xml");
-		
-		// Necessary, otherwise test will fail because assertion will start before .exe was created
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			launch4jAdapterTestlogger.error("createExecutableTest(): Tread has been interrupted.", e);
-		}
-		
-		
 		assertTrue(destinaitonFile.exists());
 		
 		launch4jAdapterTestlogger.info("Executed createExecutableTest().");
