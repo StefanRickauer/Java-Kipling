@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+	<Properties>
+		<Property name="filename">./logs</Property>
+	</Properties>
 	<Appenders>
+		<RollingFile name="logfile"
+			filePattern="${filename}/%d{yyyy-MM-dd}.log">
+			<PatternLayout>
+				<pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+			</PatternLayout>
+			<SizeBasedTriggeringPolicy size="500" />
+		</RollingFile>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout
 				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
@@ -9,6 +19,7 @@
 	<Loggers>
 		<Root level="trace">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="logfile" />
 		</Root>
 	</Loggers>
 </Configuration>

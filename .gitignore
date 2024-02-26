@@ -4,6 +4,9 @@
 # Binaries
 bin/
 
+# Logfiles
+logs/
+
 # Package Files #
 *.jar
 *.war
