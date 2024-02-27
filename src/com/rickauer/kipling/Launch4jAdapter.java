@@ -26,7 +26,7 @@ public class Launch4jAdapter {
 			
 		} catch (IOException e) {
 			launch4jAdapterLogger.error("createExecutable(String configFileLocation): I/O operation failed.", e);
-			throw new RuntimeException("Error executing '" + launch4jcInstallLocation + " " + configFileLocation + "'.", e);
+			throw new RuntimeException("Error executing '" + launch4jcInstallLocation + "' '" + configFileLocation + "'.", e);
 		} catch (InterruptedException e) {
 			launch4jAdapterLogger.error("waitFor(): Thread was interrupted by another thread.", e);
 			throw new RuntimeException("Error executing Process.waitFor()", e);
