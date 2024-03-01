@@ -16,7 +16,7 @@ public class Launch4jAdapter {
 	
 	public void createExecutable(String configFileLocation) {
 		
-		launch4jAdapterLogger.info("Executing createExecutable()...");
+		launch4jAdapterLogger.info("Executing createExecutable() ...");
 		
 		try {
 			ProcessBuilder builder = new ProcessBuilder();

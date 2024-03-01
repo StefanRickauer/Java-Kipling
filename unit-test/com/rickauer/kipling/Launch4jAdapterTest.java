@@ -4,14 +4,11 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class Launch4jAdapterTest {
 
-	private static Logger launch4jAdapterTestlogger = LogManager.getLogger(Launch4jAdapterTest.class.getName());
 	static Launch4jAdapter adapter, invalidAdapter;
 	static File destinaitonFile;
 	static String configFileLocation = "C:\\Users\\noNameForM3\\Documents\\Tests\\kiplingTESTgui\\config.xml";
@@ -19,7 +16,7 @@ class Launch4jAdapterTest {
 	@BeforeAll
 	private static void initializeTestData() {
 		
-		launch4jAdapterTestlogger.info("Initializing test data...");
+		System.out.println("Launch4jAdapterTest: Initializing test data ...");
 		
 		adapter = new Launch4jAdapter("C:\\Program Files (x86)\\Launch4j\\launch4jc.exe");
 		invalidAdapter = new Launch4jAdapter("invalid path");
@@ -29,28 +26,28 @@ class Launch4jAdapterTest {
 		if (destinaitonFile.exists())
 			destinaitonFile.delete();
 		
-		launch4jAdapterTestlogger.info("Initialized test data.");
+		System.out.println("Launch4jAdapterTest: Initialized test data.");
 	}
 	
 	@Test
 	void createExecutableTest() {
 		
-		launch4jAdapterTestlogger.info("Executing createExecutableTest()...");
+		System.out.println("Launch4jAdapterTest: Executing createExecutableTest() ...");
 
 		adapter.createExecutable(configFileLocation);
 		assertTrue(destinaitonFile.exists());
 		
-		launch4jAdapterTestlogger.info("Executed createExecutableTest().");
+		System.out.println("Launch4jAdapterTest: Executed createExecutableTest().");
 	}
 	
 	@Test
 	void createExecutableRaiseIOExceptionTest() {
-		launch4jAdapterTestlogger.info("Executing createExecutableRaiseIOExceptionTest()...");
+		System.out.println("Launch4jAdapterTest: Executing createExecutableRaiseIOExceptionTest() ...");
 
 		assertThrows(RuntimeException.class, () -> invalidAdapter.createExecutable(configFileLocation));
 		Exception runtimeException = assertThrows(RuntimeException.class, () -> invalidAdapter.createExecutable(configFileLocation));
 		assertEquals("Error executing 'invalid path' '" + configFileLocation + "'.", runtimeException.getMessage());
 		
-		launch4jAdapterTestlogger.info("Executed createExecutableRaiseIOExceptionTest().");
+		System.out.println("Launch4jAdapterTest: Executed createExecutableRaiseIOExceptionTest().");
 	}
 }
