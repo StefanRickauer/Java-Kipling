@@ -11,12 +11,12 @@ class BaseKiplingConfigurationTest {
 		
 		System.out.println("BaseKiplingConfigurationTest: Executing processCommandLineArgumentsTest() ...");
 		
-		String[] mockArgs = new String[] {"launch4jc.exe", "config.xml"};
+		String[] mockArgs = new String[] {"--l", "launch4jc.exe", "--c", "config.xml"};
 		
 		BaseKiplingConfiguration baseKiplingConfiguration = BaseKiplingConfiguration.processCommandLineArguments(mockArgs);
 		
-		assertEquals(mockArgs[0], baseKiplingConfiguration.getLaunch4jcPath());
-		assertEquals(mockArgs[1], baseKiplingConfiguration.getConfigurationFilePath());
+		assertEquals(mockArgs[1], baseKiplingConfiguration.getLaunch4jcPath());
+		assertEquals(mockArgs[3], baseKiplingConfiguration.getConfigurationFilePath());
 		
 		System.out.println("BaseKiplingConfigurationTest: Executed processCommandLineArgumentsTest().");
 	}
