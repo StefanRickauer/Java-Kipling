@@ -13,6 +13,12 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		
 		baseConfigLogger.info("Executing processCommandLineArguments() ...");
 		
+		if (args.length == 0) {
+			baseConfigLogger.fatal("No arguments detected.");
+			System.err.println("Error: No arguments detected.");
+			throw new IllegalArgumentException("No arguments detected.");
+		}
+		
 		String launch4jc = "", configuration = "";
 		
 		for (int i = 0; i < args.length; i++) {
@@ -28,7 +34,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 				default -> {
 					System.err.println("Invalid argument: " + args[i]);
 					baseConfigLogger.fatal("Invalid argument: " + args[i]);
-					System.exit(1);
+					throw new IllegalArgumentException("Invalid argument: " + args[i]);
 				}
 			}
 		}

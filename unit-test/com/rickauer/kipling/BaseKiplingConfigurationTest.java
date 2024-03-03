@@ -20,4 +20,30 @@ class BaseKiplingConfigurationTest {
 		
 		System.out.println("BaseKiplingConfigurationTest: Executed processCommandLineArgumentsTest().");
 	}
+	
+	@Test
+	void processCommandLineArgumentsRaiseExceptionTest1() {
+		
+		System.out.println("BaseKiplingConfigurationTest: Executing processCommandLineArgumentsRaiseExceptionTest1() ...");
+		
+		String[] emptyArgArray = new String[0];
+		
+		Exception illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> BaseKiplingConfiguration.processCommandLineArguments(emptyArgArray));
+		assertEquals("No arguments detected.", illegalArgumentException.getMessage());
+		
+		System.out.println("BaseKiplingConfigurationTest: Executed processCommandLineArgumentsRaiseExceptionTest1().");
+	}
+	
+	@Test
+	void processCommandLineArgumentsRaiseExceptionTest2() {
+		
+		System.out.println("BaseKiplingConfigurationTest: Executing processCommandLineArgumentsRaiseExceptionTest2() ...");
+		
+		String[] invalidArgumentArray = new String[] {"--invalid"};
+		
+		Exception illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> BaseKiplingConfiguration.processCommandLineArguments(invalidArgumentArray));
+		assertEquals("Invalid argument: --invalid", illegalArgumentException.getMessage());
+		
+		System.out.println("BaseKiplingConfigurationTest: Executed processCommandLineArgumentsRaiseExceptionTest2().");
+	}
 }

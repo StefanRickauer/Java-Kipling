@@ -44,7 +44,6 @@ class Launch4jAdapterTest {
 	void createExecutableRaiseIOExceptionTest() {
 		System.out.println("Launch4jAdapterTest: Executing createExecutableRaiseIOExceptionTest() ...");
 
-		assertThrows(RuntimeException.class, () -> invalidAdapter.createExecutable(configFileLocation));
 		Exception runtimeException = assertThrows(RuntimeException.class, () -> invalidAdapter.createExecutable(configFileLocation));
 		assertEquals("Error executing 'invalid path' '" + configFileLocation + "'.", runtimeException.getMessage());
 		
