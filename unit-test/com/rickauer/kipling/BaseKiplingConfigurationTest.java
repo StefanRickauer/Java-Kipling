@@ -11,7 +11,7 @@ class BaseKiplingConfigurationTest {
 		
 		System.out.println("BaseKiplingConfigurationTest: Executing processCommandLineArgumentsTest() ...");
 		
-		String[] mockArgs = new String[] {"--l", "launch4jc.exe", "--c", "config.xml"};
+		String[] mockArgs = new String[] {"--lnch", "launch4jc.exe", "--conf", "config.xml"};
 		
 		BaseKiplingConfiguration baseKiplingConfiguration = BaseKiplingConfiguration.processCommandLineArguments(mockArgs);
 		

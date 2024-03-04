@@ -23,11 +23,11 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		
 		for (int i = 0; i < args.length; i++) {
 			switch(args[i]) {
-				case "--l" -> {
+				case "--lnch" -> {
 					i++;
 					launch4jc = args[i];
 				}
-				case "--c" -> {
+				case "--conf" -> {
 					i++;
 					configuration = args[i];
 				}
@@ -44,6 +44,22 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		return new BaseKiplingConfiguration(launch4jc, configuration);		
 	}
 	
+	public static void displayUsageMessage() {
+		System.out.println("""
+				
+				Usage: Kipling <option> <argument>
+				The following options are possible: 
+					--lnch <argument> 
+						Argument has to be the path to launch4jc.exe
+					--conf <argument>
+						Argument has to be the path to the config (.xml) file
+						
+				Enter interactive mode (create configuration file):
+					--ppt
+						You will be prompted to provide the information necessary to create a config.xml file from scratch
+				""");
+	}
+	
 	private BaseKiplingConfiguration(String launch4jcPath, String configurationFilePath) {
 		this.lauch4jcPath = launch4jcPath;
 		this.configurationFilePath = configurationFilePath;
@@ -58,15 +74,4 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 	public String getConfigurationFilePath() {
 		return configurationFilePath;
 	}
-
-	@Override
-	public String getJARPath() {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-
-	@Override
-	public String getExecutablePath() {
-		throw new UnsupportedOperationException("Not implemented yet.");
-	}
-
 }

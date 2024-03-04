@@ -25,7 +25,7 @@ public class Kipling {
 			kiplingLogger.info("Finished.");
 			System.out.println("Executable successfully created.");
 		} catch (Exception e) {
-			System.err.println("Error executing Kipling. Check logs for more information.");
+			BaseKiplingConfiguration.displayUsageMessage();
 			kiplingLogger.error("Could not finish task.", e);
 		}
 	}
