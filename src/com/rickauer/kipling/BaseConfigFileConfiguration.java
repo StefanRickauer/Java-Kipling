@@ -1,7 +1,7 @@
 package com.rickauer.kipling;
 
 public final class BaseConfigFileConfiguration implements ConfigFileConfiguration {
-
+	; // Logger nicht vergessen
 	@Override
 	public String getHeaderType() {
 		throw new UnsupportedOperationException("Not implemented yet");

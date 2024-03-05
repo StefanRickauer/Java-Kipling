@@ -9,7 +9,7 @@ class ConfigFileCreatorTest {
 	@Test
 	void test() {
 		fail("Not yet implemented");
-		;
+		; // Logger nicht vergessen
 	}
 
 }
