@@ -3,11 +3,13 @@ package com.rickauer.kipling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rickauer.kipling.utils.ConfigFileCreator;
+
 public final class BaseKiplingConfiguration implements KiplingConfiguration {
 
 	private static Logger baseConfigLogger = LogManager.getLogger(BaseKiplingConfiguration.class.getName());
-	private String lauch4jcPath;
-	private String configurationFilePath;
+	private final String lauch4jcPath;
+	private final String configurationFilePath;
 	
 	public static final BaseKiplingConfiguration processCommandLineArguments(String[] args) {
 		
@@ -30,6 +32,12 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 				case "--conf" -> {
 					i++;
 					configuration = args[i];
+				}
+				case "--ppt" -> {
+					configuration = System.getProperty("user.dir") + "\\configuration.xml";
+					ConfigFileConfiguration config = ConfigFileCreator.createConfigurationFile();
+					; // save file
+					
 				}
 				default -> {
 					System.err.println("Invalid argument: " + args[i]);
