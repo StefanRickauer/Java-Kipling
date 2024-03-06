@@ -1,14 +1,44 @@
 package com.rickauer.kipling.utils;
 
-import com.rickauer.kipling.BaseConfigFileConfiguration;
+import java.util.Scanner;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ConfigFileCreator {
-	public static BaseConfigFileConfiguration createConfigurationFile() {
-		; // Logger nicht vergessen
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
+	
+	private static Logger ConfigFileCreatorLogger = LogManager.getLogger(ConfigFileCreator.class.getName());
 	
 	private ConfigFileCreator() {
 		throw new UnsupportedOperationException("The utility class '" + ConfigFileCreator.class.getCanonicalName() + "' is not supposed to be instantiated");
+	}
+	
+	; // change return type 
+	public static String createConfigurationFile() {
+		
+		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
+		
+		String headerType = requestHeaderType();
+		
+		ConfigFileCreatorLogger.info("Executed createConfigurationFile().");
+		
+		return headerType;
+	}
+	
+	private static String requestHeaderType() {
+		
+		try (Scanner scanner = new Scanner(System.in)) {
+			String input = "";
+			
+			System.out.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
+			input = scanner.next();
+			
+			return switch (input) {
+				case "g" -> "gui";
+				case "c" -> "console";
+				default  -> "console";
+			};
+			
+		}
 	}
 }

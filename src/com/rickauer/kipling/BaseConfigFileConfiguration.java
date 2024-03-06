@@ -1,7 +1,14 @@
 package com.rickauer.kipling;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public final class BaseConfigFileConfiguration implements ConfigFileConfiguration {
-	; // Logger nicht vergessen
+
+	private static Logger baseConfigFileConfigurationLogger = LogManager.getLogger(BaseConfigFileConfiguration.class.getName());
+	
+	; // Builder ?
+	
 	@Override
 	public String getHeaderType() {
 		throw new UnsupportedOperationException("Not implemented yet");

@@ -3,8 +3,6 @@ package com.rickauer.kipling;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.rickauer.kipling.utils.ConfigFileCreator;
-
 public final class BaseKiplingConfiguration implements KiplingConfiguration {
 
 	private static Logger baseConfigLogger = LogManager.getLogger(BaseKiplingConfiguration.class.getName());
@@ -35,7 +33,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 				}
 				case "--ppt" -> {
 					configuration = System.getProperty("user.dir") + "\\configuration.xml";
-					ConfigFileConfiguration config = ConfigFileCreator.createConfigurationFile();
+//					ConfigFileConfiguration config = ConfigFileCreator.createConfigurationFile();
 					; // save file
 					
 				}
