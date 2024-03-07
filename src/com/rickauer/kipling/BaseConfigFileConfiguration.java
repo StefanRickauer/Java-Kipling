@@ -7,6 +7,9 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 
 	private static Logger baseConfigFileConfigurationLogger = LogManager.getLogger(BaseConfigFileConfiguration.class.getName());
 	
+	public static void saveConfigurationFile() {
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
 	; // Builder ?
 	
 	@Override

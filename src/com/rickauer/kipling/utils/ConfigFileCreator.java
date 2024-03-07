@@ -13,7 +13,7 @@ public class ConfigFileCreator {
 		throw new UnsupportedOperationException("The utility class '" + ConfigFileCreator.class.getCanonicalName() + "' is not supposed to be instantiated");
 	}
 	
-	; // change return type 
+	; // change return type to BaseConfigFileConfiguration
 	public static String createConfigurationFile() {
 		
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
