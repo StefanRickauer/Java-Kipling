@@ -28,14 +28,14 @@ public class ConfigFileCreator {
 	private static String requestHeaderType() {
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String input = "";
+			char input;
 			
 			System.out.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
-			input = scanner.next();
+			input = scanner.next().charAt(0);
 			
 			return switch (input) {
-				case "g" -> "gui";
-				case "c" -> "console";
+				case 'g' -> "gui";
+				case 'c' -> "console";
 				default  -> "console";
 			};
 			

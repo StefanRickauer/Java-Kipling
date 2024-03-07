@@ -6,29 +6,60 @@ import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class ConfigFileCreatorTest {
 
+	static Class<ConfigFileCreator> clazz;
+	
+	@BeforeAll
+	static void initializeTestData() {
+		clazz = ConfigFileCreator.class;
+	}
 	
 	
 	@Test
-	void requestHeaderTypeTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		
-		Class<ConfigFileCreator> clazz = ConfigFileCreator.class;
-		Method method = clazz.getDeclaredMethod("requestHeaderType");		// getDeclaredMethod for private methods, getMethod for public methods (https://www.baeldung.com/java-invoke-static-method-reflection)
-		method.setAccessible(true);
+	void requestHeaderTypeGuiTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
 		mockUserInput("g");
-		String result = (String) method.invoke(null);
-		System.out.println(result);
+		String result = (String) getRequestHeaderType().invoke(null);
 		assertEquals("gui", result);
-		; // refactor method  
 	}
 	
-	void mockUserInput(String data) {
+	@Test
+	void requestHeaderTypeConsoleTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		mockUserInput("c");
+		String result = (String) getRequestHeaderType().invoke(null);
+		assertEquals("console", result);
+	}
+	
+	@Test
+	void requestHeaderTypeDefaultTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		mockUserInput("something else");
+		String result = (String) getRequestHeaderType().invoke(null);
+		assertEquals("console", result);
+	}
+	
+	@Test
+	void requestHeaderTypeInvalidInputTest() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		
+		mockUserInput("1234");
+		String result = (String) getRequestHeaderType().invoke(null);
+		assertEquals("console", result);
+	}
+	
+	private Method getRequestHeaderType() throws NoSuchMethodException, SecurityException {
+		Method method = clazz.getDeclaredMethod("requestHeaderType");	// getDeclaredMethod for private methods, getMethod for public methods (https://www.baeldung.com/java-invoke-static-method-reflection)
+		method.setAccessible(true);
+		
+		return method;
+	}
+	
+	private void mockUserInput(String data) {
 		ByteArrayInputStream systemIn = new ByteArrayInputStream(data.getBytes());
 		System.setIn(systemIn);
 	}
-	
-	
 }
