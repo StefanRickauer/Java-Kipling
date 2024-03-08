@@ -1,5 +1,7 @@
 package com.rickauer.kipling.utils;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ public class ConfigFileCreator {
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
 		
 		String headerType = requestHeaderType();
+		String jdkPath = retrieveJDKPath();
 		
 		ConfigFileCreatorLogger.info("Executed createConfigurationFile().");
 		
@@ -39,6 +42,26 @@ public class ConfigFileCreator {
 				default  -> "console";
 			};
 			
+		}
+	}
+	
+	private static String retrieveJDKPath() {
+		return (System.getenv("java_home") == null) ? requestJDKPath() : "%java_home%";
+	}
+	
+	private static String requestJDKPath() {
+		
+		try (Scanner scanner = new Scanner(System.in)) {
+			String path = "";
+			
+			System.out.println("Please provide the path to the JDK.");
+			
+			path = scanner.nextLine();
+			
+			if (!Files.exists(Paths.get(path))) {
+				throw new RuntimeException("Error: File '" + path + "' does not exist.");
+			}
+			return path;
 		}
 	}
 }
