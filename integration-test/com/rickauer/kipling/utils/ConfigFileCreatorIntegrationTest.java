@@ -1,11 +1,14 @@
 package com.rickauer.kipling.utils;
 
+import com.rickauer.kipling.BaseConfigFileConfiguration;
+
 public class ConfigFileCreatorIntegrationTest {
 	
 	public static void main(String[] args) {
 		
-		String userInput = ConfigFileCreator.createConfigurationFile();
-		System.out.println("Application type: '" + userInput + "'");
+		BaseConfigFileConfiguration configuration = ConfigFileCreator.createConfigurationFile();
+		System.out.println("Application type: '" + configuration.getHeaderType() + "'");
+		System.out.println("JDK path: '" + configuration.getJDKPath() + "'");
 		
 	}
 }

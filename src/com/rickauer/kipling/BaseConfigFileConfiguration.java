@@ -7,14 +7,27 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 
 	private static Logger baseConfigFileConfigurationLogger = LogManager.getLogger(BaseConfigFileConfiguration.class.getName());
 	
-	public static void saveConfigurationFile() {
+	private String headerType;
+	private String jdkPath;
+	
+	public BaseConfigFileConfiguration(final String headerType, final String jdkPath) {
+		this.headerType = headerType;
+		this.jdkPath = jdkPath;
+	}
+	
+	public static void createConfigurationFile() {
+		
+		baseConfigFileConfigurationLogger.info("Creating configuration file ...");
+		// Do stuff here
+		baseConfigFileConfigurationLogger.info("Created configuration file.");
+		
 		throw new UnsupportedOperationException("Not implemented yet");
 	}
 	; // Builder ?
 	
 	@Override
 	public String getHeaderType() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return headerType;
 	}
 
 	@Override
@@ -29,6 +42,6 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 
 	@Override
 	public String getJDKPath() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return jdkPath;
 	}
 }

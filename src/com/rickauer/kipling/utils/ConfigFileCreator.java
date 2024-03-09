@@ -7,6 +7,8 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rickauer.kipling.BaseConfigFileConfiguration;
+
 public class ConfigFileCreator {
 	
 	private static Logger ConfigFileCreatorLogger = LogManager.getLogger(ConfigFileCreator.class.getName());
@@ -15,17 +17,17 @@ public class ConfigFileCreator {
 		throw new UnsupportedOperationException("The utility class '" + ConfigFileCreator.class.getCanonicalName() + "' is not supposed to be instantiated");
 	}
 	
-	; // change return type to BaseConfigFileConfiguration
-	public static String createConfigurationFile() {
+	public static BaseConfigFileConfiguration createConfigurationFile() {
 		
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
 		
 		String headerType = requestHeaderType();
 		String jdkPath = retrieveJDKPath();
+		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(headerType, jdkPath);
 		
 		ConfigFileCreatorLogger.info("Executed createConfigurationFile().");
 		
-		return headerType;
+		return configuration;
 	}
 	
 	private static String requestHeaderType() {
@@ -59,6 +61,8 @@ public class ConfigFileCreator {
 			path = scanner.nextLine();
 			
 			if (!Files.exists(Paths.get(path))) {
+				ConfigFileCreatorLogger.fatal("Error: File '" + path + "' does not exist.");
+				System.err.println("Error: File '" + path + "' does not exist.");
 				throw new RuntimeException("Error: File '" + path + "' does not exist.");
 			}
 			return path;
