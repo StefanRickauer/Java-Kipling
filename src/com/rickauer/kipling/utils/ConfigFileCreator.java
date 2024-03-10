@@ -21,13 +21,38 @@ public class ConfigFileCreator {
 		
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
 		
+		String configurationFilePath = requestConfigurationFilePath();
 		String headerType = requestHeaderType();
 		String jdkPath = retrieveJDKPath();
-		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(headerType, jdkPath);
+		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(configurationFilePath, headerType, jdkPath);
 		
 		ConfigFileCreatorLogger.info("Executed createConfigurationFile().");
 		
 		return configuration;
+	}
+	
+	private static String requestConfigurationFilePath() {
+		
+		try (Scanner scanner = new Scanner(System.in)) {
+			String configFilePath;
+			
+			System.out.println("Please provide the path and name for the configuration file.");
+			configFilePath = scanner.nextLine();
+			
+			if (!configFilePath.endsWith(".xml")) {
+				ConfigFileCreatorLogger.fatal("Error: File '" + configFilePath + "' must be an XML file.");
+				System.err.println("Error: File '" + configFilePath + "' must be an XML file.");
+				throw new RuntimeException("Error: File '" + configFilePath + "' must be an XML file.");
+			}
+			
+			if (Files.exists(Paths.get(configFilePath))) {
+				ConfigFileCreatorLogger.fatal("Error: File '" + configFilePath + "' already exists.");
+				System.err.println("Error: File '" + configFilePath + "' already exists.");
+				throw new RuntimeException("Error: File '" + configFilePath + "' already exists.");
+			}
+			
+			return configFilePath;
+		}
 	}
 	
 	private static String requestHeaderType() {
