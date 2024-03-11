@@ -10,11 +10,15 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 	private String configurationFilePath;	; // get configuration file path or hard code it at first
 	private String headerType;
 	private String jdkPath;
+	private String jarPath;
+	private String exePath; 
 	
-	public BaseConfigFileConfiguration(final String configurationPath, final String headerType, final String jdkPath) {
+	public BaseConfigFileConfiguration(final String configurationPath, final String headerType, final String jdkPath, final String jarPath, final String exePath) {
 		this.configurationFilePath = configurationPath;
 		this.headerType = headerType;
 		this.jdkPath = jdkPath;
+		this.jarPath = jarPath;
+		this.exePath = exePath;
 	}
 	
 	public void saveConfigurationFile() {
@@ -39,12 +43,12 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 
 	@Override
 	public String getJARPath() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return jarPath;
 	}
 
 	@Override
 	public String getExecutablePath() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		return exePath;
 	}
 
 	@Override

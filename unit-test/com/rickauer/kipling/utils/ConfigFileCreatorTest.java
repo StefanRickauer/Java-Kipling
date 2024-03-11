@@ -102,6 +102,46 @@ public class ConfigFileCreatorTest {
 		assertEquals("Error: File 'A:\\Path\\does\\not/exist' does not exist.", exception.getCause().getMessage());
 	}
 	
+	@Test
+	void requestJARPathTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		mockUserInput("C:\\tmp\\sortbyvlaue.jar");
+		String jarPath = (String) getStaticMethodByName("requestJARPath").invoke(null);
+		assertEquals("C:\\tmp\\sortbyvlaue.jar", jarPath);
+	}
+	
+	@Test
+	void requestJARPathInvalidFileTest() {
+		mockUserInput("C:\\tmp\\test.xml");
+		
+		Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath").invoke(null));
+		assertEquals(RuntimeException.class, exception.getCause().getClass());
+		assertEquals("Error: File 'C:\\tmp\\test.xml' must be a JAR file.", exception.getCause().getMessage());
+	}
+	
+	@Test
+	void requestJARPathInvalidPathTest() {
+		mockUserInput("C:\\invalid\\path\\test.jar");
+		
+		Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath").invoke(null));
+		assertEquals(RuntimeException.class, exception.getCause().getClass());
+		assertEquals("Error: File 'C:\\invalid\\path\\test.jar' does not exist.", exception.getCause().getMessage());
+	}
+	
+	void requestEXEPathTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		mockUserInput("C:\\tmp\\myProgram.exe");
+		String jarPath = (String) getStaticMethodByName("requestEXEPath").invoke(null);
+		assertEquals("C:\\tmp\\myProgram", jarPath);
+	}
+	
+	@Test
+	void requestEXEPathInvalidFileTest() {
+		mockUserInput("C:\\tmp\\test.xml");
+		
+		Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestEXEPath").invoke(null));
+		assertEquals(RuntimeException.class, exception.getCause().getClass());
+		assertEquals("Error: File 'C:\\tmp\\test.xml' must be an EXE file.", exception.getCause().getMessage());
+	}
+	
 	private Method getStaticMethodByName(String methodIdentifier) throws NoSuchMethodException, SecurityException {
 		Method method = clazz.getDeclaredMethod(methodIdentifier);
 		method.setAccessible(true);

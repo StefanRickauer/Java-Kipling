@@ -11,7 +11,7 @@ class BaseConfigFileConfigurationTest {
 	
 	@BeforeAll
 	static void initializeTestData() {
-		baseConfigFileConfiguration = new BaseConfigFileConfiguration("C:\\tmp\\test.xml", "gui", "C:\\Program Files\\Java\\jdk-17");
+		baseConfigFileConfiguration = new BaseConfigFileConfiguration("C:\\tmp\\test.xml", "gui", "C:\\Program Files\\Java\\jdk-17", "C:\\tmp\\sortbyvlaue.jar", "C:\\tmp\\myProgram.exe");
 	}
 	
 	@Test
@@ -24,15 +24,15 @@ class BaseConfigFileConfigurationTest {
 		assertEquals("gui", baseConfigFileConfiguration.getHeaderType());
 	}
 	; // Uncomment unit tests as soon as the respective methods have been implemented
-//	@Test
-//	public void getJARPathTest() {
-//		baseConfigFileConfiguration.getJARPath();
-//	}
+	@Test
+	public void getJARPathTest() {
+		assertEquals("C:\\tmp\\sortbyvlaue.jar", baseConfigFileConfiguration.getJARPath());
+	}
 
-//	@Test
-//	public void getExecutablePathTest() {
-//		baseConfigFileConfiguration.getExecutablePath();
-//	}
+	@Test
+	public void getExecutablePathTest() {
+		assertEquals("C:\\tmp\\myProgram.exe", baseConfigFileConfiguration.getExecutablePath());
+	}
 	
 	@Test
 	void getJDKPathTest() {
