@@ -7,7 +7,7 @@ public final class BaseConfigFileConfiguration implements ConfigFileConfiguratio
 
 	private static Logger baseConfigFileConfigurationLogger = LogManager.getLogger(BaseConfigFileConfiguration.class.getName());
 	
-	private String configurationFilePath;	; // get configuration file path or hard code it at first
+	private String configurationFilePath;	
 	private String headerType;
 	private String jdkPath;
 	private String jarPath;

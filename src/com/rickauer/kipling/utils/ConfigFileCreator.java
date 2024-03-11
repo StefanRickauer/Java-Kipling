@@ -18,6 +18,7 @@ public class ConfigFileCreator {
 				+ "' is not supposed to be instantiated");
 	}
 
+	; // TODO: Troubleshoot "NoSuchElementException": https://stackoverflow.com/questions/13042008/java-util-nosuchelementexception-scanner-reading-user-input
 	public static BaseConfigFileConfiguration createConfigurationFile() {
 
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
@@ -63,16 +64,15 @@ public class ConfigFileCreator {
 	private static String requestHeaderType() {
 
 		try (Scanner scanner = new Scanner(System.in)) {
-			char input;
+			String input;
 
-			System.out
-					.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
-			input = scanner.next().charAt(0);
+			System.out.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
+			input = scanner.next();
 
 			return switch (input) {
-			case 'g' -> "gui";
-			case 'c' -> "console";
-			default -> "console";
+				case "g" -> "gui";
+				case "c" -> "console";
+				default  -> "console";
 			};
 
 		}
