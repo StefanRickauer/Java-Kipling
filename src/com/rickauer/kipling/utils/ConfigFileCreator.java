@@ -19,15 +19,21 @@ public class ConfigFileCreator {
 	}
 
 	; // TODO: Troubleshoot "NoSuchElementException": https://stackoverflow.com/questions/13042008/java-util-nosuchelementexception-scanner-reading-user-input
+	// Use next() when using Scanner multiple times: https://stackoverflow.com/questions/26779393/java-using-scanner-multiple-timesS
 	public static BaseConfigFileConfiguration createConfigurationFile() {
 
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
 
-		String configurationFilePath = requestConfigurationFilePath();
-		String headerType = requestHeaderType();
-		String jdkPath = retrieveJDKPath();
-		String jarPath = requestJARPath();
-		String exePath = requestEXEPath();
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		
+		String configurationFilePath = requestConfigurationFilePath(scanner);
+		String headerType = requestHeaderType(scanner);
+		String jdkPath = retrieveJDKPath(scanner);
+		String jarPath = requestJARPath(scanner);
+		String exePath = requestEXEPath(scanner);
+		
+		scanner.close();
 		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(configurationFilePath, headerType,
 				jdkPath, jarPath, exePath);
 
@@ -37,13 +43,13 @@ public class ConfigFileCreator {
 	}
 
 	; // TODO: Refactor all request...Path()- Methods
-	private static String requestConfigurationFilePath() {
+	private static String requestConfigurationFilePath(Scanner scanner) {
 
-		try (Scanner scanner = new Scanner(System.in)) {
+		try  {
 			String configFilePath;
 
 			System.out.println("Please provide the path and name for the configuration file.");
-			configFilePath = scanner.nextLine();
+			configFilePath = scanner.next();
 
 			if (!configFilePath.endsWith(".xml")) {
 				ConfigFileCreatorLogger.fatal("Error: File '" + configFilePath + "' must be an XML file.");
@@ -58,12 +64,14 @@ public class ConfigFileCreator {
 			}
 
 			return configFilePath;
+		} catch (Exception e) {
+			throw new RuntimeException("requestConfigurationFilePath(): " + e.getMessage());
 		}
 	}
 
-	private static String requestHeaderType() {
+	private static String requestHeaderType(Scanner scanner) {
 
-		try (Scanner scanner = new Scanner(System.in)) {
+		try {
 			String input;
 
 			System.out.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
@@ -75,21 +83,23 @@ public class ConfigFileCreator {
 				default  -> "console";
 			};
 
+		} catch (Exception e) {
+			throw new RuntimeException("requestHeaderType(): Error requesting header type.", e);
 		}
 	}
 
-	private static String retrieveJDKPath() {
-		return (System.getenv("java_home") == null) ? requestJDKPath() : "%java_home%";
+	private static String retrieveJDKPath(Scanner scanner) {
+		return (System.getenv("java_home") == null) ? requestJDKPath(scanner) : "%java_home%";
 	}
 
-	private static String requestJDKPath() {
+	private static String requestJDKPath(Scanner scanner) {
 
-		try (Scanner scanner = new Scanner(System.in)) {
+		try {
 			String path;
 
 			System.out.println("Please provide the path to the JDK.");
 
-			path = scanner.nextLine();
+			path = scanner.next();
 
 			if (!Files.exists(Paths.get(path))) {
 				ConfigFileCreatorLogger.fatal("Error: File '" + path + "' does not exist.");
@@ -97,17 +107,19 @@ public class ConfigFileCreator {
 				throw new RuntimeException("Error: File '" + path + "' does not exist.");
 			}
 			return path;
+		} catch (Exception e) {
+			throw new RuntimeException("requestJDKPath(): " + e.getMessage());
 		}
 	}
 
-	private static String requestJARPath() {
+	private static String requestJARPath(Scanner scanner) {
 
-		try (Scanner scanner = new Scanner(System.in)) {
+		try {
 			String jarPath;
 
 			System.out.println("Please provide the path to the JAR file (runnable JAR!).");
 
-			jarPath = scanner.nextLine();
+			jarPath = scanner.next();
 
 			if (!jarPath.endsWith(".jar")) {
 				ConfigFileCreatorLogger.fatal("Error: File '" + jarPath + "' must be a JAR file.");
@@ -121,17 +133,19 @@ public class ConfigFileCreator {
 				throw new RuntimeException("Error: File '" + jarPath + "' does not exist.");
 			}
 			return jarPath;
+		} catch (Exception e) {
+			throw new RuntimeException("requestJARPath(): " + e.getMessage());
 		}
 	}
 	
-	private static String requestEXEPath() {
+	private static String requestEXEPath(Scanner scanner) {
 
-		try (Scanner scanner = new Scanner(System.in)) {
+		try {
 			String exePath;
 
 			System.out.println("Please provide the path to the EXE file.");
 
-			exePath = scanner.nextLine();
+			exePath = scanner.next();
 
 			if (!exePath.endsWith(".exe")) {
 				ConfigFileCreatorLogger.fatal("Error: File '" + exePath + "' must be an EXE file.");
@@ -140,6 +154,8 @@ public class ConfigFileCreator {
 			}
 			
 			return exePath;
+		} catch (Exception e) {
+			throw new RuntimeException("requestEXEPath(): " + e.getMessage());
 		}
 	}
 }
