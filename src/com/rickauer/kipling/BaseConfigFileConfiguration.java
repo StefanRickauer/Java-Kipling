@@ -2,11 +2,11 @@ package com.rickauer.kipling;
 
 public final class BaseConfigFileConfiguration implements ConfigFileConfiguration {
 
-	private String configurationFilePath;	
-	private String headerType;
-	private String jdkPath;
-	private String jarPath;
-	private String exePath; 
+	private final String configurationFilePath;	
+	private final String headerType;
+	private final String jdkPath;
+	private final String jarPath;
+	private final String exePath; 
 	
 	public BaseConfigFileConfiguration(final String configurationPath, final String headerType, final String jdkPath, final String jarPath, final String exePath) {
 		this.configurationFilePath = configurationPath;

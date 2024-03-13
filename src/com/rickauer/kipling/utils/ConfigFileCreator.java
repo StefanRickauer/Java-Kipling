@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.rickauer.kipling.BaseConfigFileConfiguration;
 
-public class ConfigFileCreator {
+public final class ConfigFileCreator {
 
 	private static Logger ConfigFileCreatorLogger = LogManager.getLogger(ConfigFileCreator.class.getName());
 
