@@ -85,9 +85,9 @@ public class ConfigFileCreator {
 			input = scanner.next();
 
 			return switch (input) {
-			case "g" -> "gui";
-			case "c" -> "console";
-			default -> "console";
+				case "g" -> "gui";
+				case "c" -> "console";
+				default  -> "console";
 			};
 
 		} catch (Exception e) {
@@ -181,6 +181,19 @@ public class ConfigFileCreator {
 		ConfigFileCreatorLogger.info("Saved configuration file to '" + configuration.getConfigurationFilePath() + "'.");
 	}
 
+	private static void createNewConfigFile(BaseConfigFileConfiguration configuration) {
+		
+		try {
+			File configFile = new File(configuration.getConfigurationFilePath());
+			if (!configFile.createNewFile()) {
+				ConfigFileCreatorLogger.fatal("saveConfigurationFile(): Error creating file.");
+				throw new RuntimeException("saveConfigurationFile(): Error creating file.");
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	private static String createConfigFileContent(BaseConfigFileConfiguration configuration) {
 		StringBuilder xmlFile = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?><launch4jConfig><dontWrapJar>false</dontWrapJar><headerType>");
 		xmlFile.append(configuration.getHeaderType());
@@ -194,18 +207,5 @@ public class ConfigFileCreator {
 		xmlFile.append("</path><requiresJdk>false</requiresJdk><requires64Bit>false</requires64Bit><minVersion></minVersion><maxVersion></maxVersion></jre></launch4jConfig>");
 
 		return xmlFile.toString();
-	}
-
-	private static void createNewConfigFile(BaseConfigFileConfiguration configuration) {
-		
-		try {
-			File configFile = new File(configuration.getConfigurationFilePath());
-			if (!configFile.createNewFile()) {
-				ConfigFileCreatorLogger.fatal("saveConfigurationFile(): Error creating file.");
-				throw new RuntimeException("saveConfigurationFile(): Error creating file.");
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }
