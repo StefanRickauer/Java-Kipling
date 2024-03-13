@@ -23,7 +23,7 @@ class BaseConfigFileConfigurationTest {
 	void getHeaderTypeTest() {
 		assertEquals("gui", baseConfigFileConfiguration.getHeaderType());
 	}
-	; // Uncomment unit tests as soon as the respective methods have been implemented
+	
 	@Test
 	public void getJARPathTest() {
 		assertEquals("C:\\tmp\\sortbyvlaue.jar", baseConfigFileConfiguration.getJARPath());
@@ -38,9 +38,4 @@ class BaseConfigFileConfigurationTest {
 	void getJDKPathTest() {
 		assertEquals("C:\\Program Files\\Java\\jdk-17", baseConfigFileConfiguration.getJDKPath());
 	}
-	
-//	@Test
-//	void saveConfigurationFileTest() {
-//		baseConfigFileConfiguration.saveConfigurationFile();
-//	}
 }

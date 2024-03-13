@@ -1,5 +1,8 @@
 package com.rickauer.kipling.utils;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -18,21 +21,23 @@ public class ConfigFileCreator {
 				+ "' is not supposed to be instantiated");
 	}
 
-	; // TODO: Troubleshoot "NoSuchElementException": https://stackoverflow.com/questions/13042008/java-util-nosuchelementexception-scanner-reading-user-input
-	// Use next() when using Scanner multiple times: https://stackoverflow.com/questions/26779393/java-using-scanner-multiple-timesS
-	public static BaseConfigFileConfiguration createConfigurationFile() {
+	// https://stackoverflow.com/questions/13042008/java-util-nosuchelementexception-scanner-reading-user-input
+	// Use next() when using Scanner multiple times:
+	// https://stackoverflow.com/questions/26779393/java-using-scanner-multiple-timesS
+
+	public static BaseConfigFileConfiguration retrieveConfiguration() {
 
 		ConfigFileCreatorLogger.info("Executing createConfigurationFile() ...");
 
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		
+
 		String configurationFilePath = requestConfigurationFilePath(scanner);
 		String headerType = requestHeaderType(scanner);
 		String jdkPath = retrieveJDKPath(scanner);
 		String jarPath = requestJARPath(scanner);
 		String exePath = requestEXEPath(scanner);
-		
+
 		scanner.close();
 		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(configurationFilePath, headerType,
 				jdkPath, jarPath, exePath);
@@ -43,9 +48,10 @@ public class ConfigFileCreator {
 	}
 
 	; // TODO: Refactor all request...Path()- Methods
+
 	private static String requestConfigurationFilePath(Scanner scanner) {
 
-		try  {
+		try {
 			String configFilePath;
 
 			System.out.println("Please provide the path and name for the configuration file.");
@@ -74,13 +80,14 @@ public class ConfigFileCreator {
 		try {
 			String input;
 
-			System.out.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
+			System.out
+					.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
 			input = scanner.next();
 
 			return switch (input) {
-				case "g" -> "gui";
-				case "c" -> "console";
-				default  -> "console";
+			case "g" -> "gui";
+			case "c" -> "console";
+			default -> "console";
 			};
 
 		} catch (Exception e) {
@@ -126,7 +133,7 @@ public class ConfigFileCreator {
 				System.err.println("Error: File '" + jarPath + "' must be a JAR file.");
 				throw new RuntimeException("Error: File '" + jarPath + "' must be a JAR file.");
 			}
-			
+
 			if (!Files.exists(Paths.get(jarPath))) {
 				ConfigFileCreatorLogger.fatal("Error: File '" + jarPath + "' does not exist.");
 				System.err.println("Error: File '" + jarPath + "' does not exist.");
@@ -137,7 +144,7 @@ public class ConfigFileCreator {
 			throw new RuntimeException("requestJARPath(): " + e.getMessage());
 		}
 	}
-	
+
 	private static String requestEXEPath(Scanner scanner) {
 
 		try {
@@ -152,10 +159,53 @@ public class ConfigFileCreator {
 				System.err.println("Error: File '" + exePath + "' must be an EXE file.");
 				throw new RuntimeException("Error: File '" + exePath + "' must be an EXE file.");
 			}
-			
+
 			return exePath;
 		} catch (Exception e) {
 			throw new RuntimeException("requestEXEPath(): " + e.getMessage());
+		}
+	}
+
+	;// TODO: Write unit tests for new methods
+	public static void saveConfigurationFile(BaseConfigFileConfiguration configuration) {
+
+		ConfigFileCreatorLogger.info("Saving configuration file to '" + configuration.getConfigurationFilePath() + "' ...");
+		createNewConfigFile(configuration);
+		String fileContent = createConfigFileContent(configuration);
+
+		try (FileWriter writer = new FileWriter(configuration.getConfigurationFilePath())) {
+			writer.write(fileContent);
+		} catch (Exception e) {
+			throw new RuntimeException("saveConfigurationFile(): Error saving file.");
+		}
+		ConfigFileCreatorLogger.info("Saved configuration file to '" + configuration.getConfigurationFilePath() + "'.");
+	}
+
+	private static String createConfigFileContent(BaseConfigFileConfiguration configuration) {
+		StringBuilder xmlFile = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?><launch4jConfig><dontWrapJar>false</dontWrapJar><headerType>");
+		xmlFile.append(configuration.getHeaderType());
+		xmlFile.append("</headerType><jar>");
+		xmlFile.append(configuration.getJARPath());
+		xmlFile.append("</jar><outfile>");
+		xmlFile.append(configuration.getExecutablePath());
+		xmlFile.append("</outfile><errTitle></errTitle><cmdLine></cmdLine><chdir>.</chdir><priority>normal</priority><downloadUrl></downloadUrl><supportUrl></supportUrl>");
+		xmlFile.append("<stayAlive>false</stayAlive><restartOnCrash>false</restartOnCrash><manifest></manifest><icon></icon><jre><path>");
+		xmlFile.append(configuration.getJDKPath());
+		xmlFile.append("</path><requiresJdk>false</requiresJdk><requires64Bit>false</requires64Bit><minVersion></minVersion><maxVersion></maxVersion></jre></launch4jConfig>");
+
+		return xmlFile.toString();
+	}
+
+	private static void createNewConfigFile(BaseConfigFileConfiguration configuration) {
+		
+		try {
+			File configFile = new File(configuration.getConfigurationFilePath());
+			if (!configFile.createNewFile()) {
+				ConfigFileCreatorLogger.fatal("saveConfigurationFile(): Error creating file.");
+				throw new RuntimeException("saveConfigurationFile(): Error creating file.");
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
