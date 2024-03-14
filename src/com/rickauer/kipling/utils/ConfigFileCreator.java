@@ -54,7 +54,7 @@ public final class ConfigFileCreator {
 		try {
 			String configFilePath;
 
-			System.out.println("Please provide the path and name for the configuration file.");
+			System.out.println("Please provide the path and name for the configuration file. The path entered will be created and must not be an existing file.");
 			configFilePath = scanner.next();
 
 			if (!configFilePath.endsWith(".xml")) {
@@ -124,7 +124,7 @@ public final class ConfigFileCreator {
 		try {
 			String jarPath;
 
-			System.out.println("Please provide the path to the JAR file (runnable JAR!).");
+			System.out.println("Please provide the path to the JAR file (runnable JAR!). The path entered must be an existing file.");
 
 			jarPath = scanner.next();
 
@@ -150,7 +150,7 @@ public final class ConfigFileCreator {
 		try {
 			String exePath;
 
-			System.out.println("Please provide the path to the EXE file.");
+			System.out.println("Please provide the path to the EXE file. The path entered will be created and must not be an existing file.");
 
 			exePath = scanner.next();
 
@@ -166,7 +166,6 @@ public final class ConfigFileCreator {
 		}
 	}
 
-	;// TODO: Write unit tests for new methods
 	public static void saveConfigurationFile(BaseConfigFileConfiguration configuration) {
 
 		ConfigFileCreatorLogger.info("Saving configuration file to '" + configuration.getConfigurationFilePath() + "' ...");

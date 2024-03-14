@@ -5,17 +5,26 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import com.rickauer.kipling.BaseConfigFileConfiguration;
+
 public class ConfigFileCreatorTest {
 
 	static Class<ConfigFileCreator> clazz;
-
+	
+	; // TODO: Move all test files into test-data folder and change source code accordingly
+	
 	@BeforeAll
 	static void initializeTestData() {
 		clazz = ConfigFileCreator.class;
@@ -27,7 +36,7 @@ public class ConfigFileCreatorTest {
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 		
-			String configFilePath = (String) getStaticMethodByName("requestConfigurationFilePath").invoke(null, scanner);
+			String configFilePath = (String) getStaticMethodByName("requestConfigurationFilePath", scanner).invoke(null, scanner);
 			scanner.close();
 			assertEquals("C:\\some\\path\\someFile.xml", configFilePath);
 		}
@@ -38,7 +47,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\some\\path\\someFile.docx");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestConfigurationFilePath(): Error: File 'C:\\some\\path\\someFile.docx' must be an XML file.", exception.getCause().getMessage());
 		}
@@ -50,7 +59,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp\\test.xml");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestConfigurationFilePath(): Error: File 'C:\\tmp\\test.xml' already exists.", exception.getCause().getMessage());
 		} 
@@ -63,7 +72,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("g");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String headerType = (String) getStaticMethodByName("requestHeaderType").invoke(null, scanner);
+			String headerType = (String) getStaticMethodByName("requestHeaderType", scanner).invoke(null, scanner);
 			assertEquals("gui", headerType);
 		}
 	}
@@ -74,7 +83,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("c");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String headerType = (String) getStaticMethodByName("requestHeaderType").invoke(null, scanner);
+			String headerType = (String) getStaticMethodByName("requestHeaderType", scanner).invoke(null, scanner);
 			assertEquals("console", headerType);
 		}
 		
@@ -86,7 +95,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("something else");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String headerType = (String) getStaticMethodByName("requestHeaderType").invoke(null, scanner);
+			String headerType = (String) getStaticMethodByName("requestHeaderType", scanner).invoke(null, scanner);
 			assertEquals("console", headerType);
 		}
 	}
@@ -97,7 +106,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("1234");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String headerType = (String) getStaticMethodByName("requestHeaderType").invoke(null, scanner);
+			String headerType = (String) getStaticMethodByName("requestHeaderType", scanner).invoke(null, scanner);
 			assertEquals("console", headerType);
 		}
 	}	
@@ -105,7 +114,7 @@ public class ConfigFileCreatorTest {
 	@Test
 	void retrieveJDKPathTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		try (Scanner scanner = new Scanner(System.in)) {
-			String jdkPath = (String) getStaticMethodByName("retrieveJDKPath").invoke(null, scanner);
+			String jdkPath = (String) getStaticMethodByName("retrieveJDKPath", scanner).invoke(null, scanner);
 			assertTrue(jdkPath.equals("%java_home%"));
 		}
 	}
@@ -115,7 +124,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp"); // Assert with space in path failed.
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String jdkPath = (String) getStaticMethodByName("requestJDKPath").invoke(null, scanner);
+			String jdkPath = (String) getStaticMethodByName("requestJDKPath", scanner).invoke(null, scanner);
 			assertTrue(jdkPath.equals("C:\\tmp"));
 		}
 	}
@@ -128,7 +137,7 @@ public class ConfigFileCreatorTest {
 		// https://www.baeldung.com/java-lang-reflect-invocationtargetexception
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJDKPath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJDKPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestJDKPath(): Error: File 'A:\\Path\\does\\not/exist' does not exist.", exception.getCause().getMessage());
 		}
@@ -139,7 +148,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp\\sortbyvalue.jar");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String jarPath = (String) getStaticMethodByName("requestJARPath").invoke(null, scanner);
+			String jarPath = (String) getStaticMethodByName("requestJARPath", scanner).invoke(null, scanner);
 			assertEquals("C:\\tmp\\sortbyvalue.jar", jarPath);
 		}
 	}
@@ -149,7 +158,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp\\test.xml");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestJARPath(): Error: File 'C:\\tmp\\test.xml' must be a JAR file.", exception.getCause().getMessage());
 		}
@@ -160,7 +169,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\invalid\\path\\test.jar");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestJARPath(): Error: File 'C:\\invalid\\path\\test.jar' does not exist.", exception.getCause().getMessage());
 		}
@@ -171,7 +180,7 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp\\myProgram.exe");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			String jarPath = (String) getStaticMethodByName("requestEXEPath").invoke(null, scanner);
+			String jarPath = (String) getStaticMethodByName("requestEXEPath", scanner).invoke(null, scanner);
 			assertEquals("C:\\tmp\\myProgram.exe", jarPath);
 		}
 	}
@@ -181,14 +190,64 @@ public class ConfigFileCreatorTest {
 		mockUserInput("C:\\tmp\\test.xml");
 		
 		try (Scanner scanner = new Scanner(System.in)) {
-			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestEXEPath").invoke(null, scanner));
+			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestEXEPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
 			assertEquals("requestEXEPath(): Error: File 'C:\\tmp\\test.xml' must be an EXE file.", exception.getCause().getMessage());
 		}
 	}
 	
-	private Method getStaticMethodByName(String methodIdentifier) throws NoSuchMethodException, SecurityException {
-		Method method = clazz.getDeclaredMethod(methodIdentifier, Scanner.class);
+	@Test
+	void saveConfigurationFileFileCreatedTest() {
+		
+		String[] configFileContent = createConfigurationFileContents();
+		
+		if (Files.exists(Paths.get(configFileContent[0]))) {
+			File file = new File(configFileContent[0]);
+			file.delete();
+		}
+		
+		BaseConfigFileConfiguration testData = createBaseConfigFileConfigutration(configFileContent);
+		
+		ConfigFileCreator.saveConfigurationFile(testData);
+		
+		assertTrue(Files.exists(Paths.get(configFileContent[0])));
+	}
+	
+	@Test
+	void createNewConfigFileFileContentTest() throws IllegalArgumentException, SecurityException, IOException {
+		
+		String[] configFileContent = createConfigurationFileContents();
+		
+		if (Files.exists(Paths.get(configFileContent[0]))) {
+			File file = new File(configFileContent[0]);
+			file.delete();
+		}
+		
+		BaseConfigFileConfiguration testData = createBaseConfigFileConfigutration(configFileContent);
+		
+		ConfigFileCreator.saveConfigurationFile(testData);
+		
+		Path path = Paths.get(configFileContent[0]);
+		String fileContent = Files.readAllLines(path).get(0);
+		
+		StringBuilder xmlFile = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?><launch4jConfig><dontWrapJar>false</dontWrapJar><headerType>");
+		xmlFile.append(configFileContent[1]);
+		xmlFile.append("</headerType><jar>");
+		xmlFile.append(configFileContent[3]);
+		xmlFile.append("</jar><outfile>");
+		xmlFile.append(configFileContent[4]);
+		xmlFile.append("</outfile><errTitle></errTitle><cmdLine></cmdLine><chdir>.</chdir><priority>normal</priority><downloadUrl></downloadUrl><supportUrl></supportUrl>");
+		xmlFile.append("<stayAlive>false</stayAlive><restartOnCrash>false</restartOnCrash><manifest></manifest><icon></icon><jre><path>");
+		xmlFile.append(configFileContent[2]);
+		xmlFile.append("</path><requiresJdk>false</requiresJdk><requires64Bit>false</requires64Bit><minVersion></minVersion><maxVersion></maxVersion></jre></launch4jConfig>");
+		
+		String expectedContent = xmlFile.toString();
+		
+		assertEquals(expectedContent, fileContent);
+	}
+	
+	private Method getStaticMethodByName(String methodIdentifier, Object object) throws NoSuchMethodException, SecurityException {
+		Method method = clazz.getDeclaredMethod(methodIdentifier, object.getClass());
 		method.setAccessible(true);
 		
 		return method;
@@ -197,5 +256,31 @@ public class ConfigFileCreatorTest {
 	private void mockUserInput(String data) {
 		ByteArrayInputStream systemIn = new ByteArrayInputStream(data.getBytes());
 		System.setIn(systemIn);
+	}
+	
+	private String[] createConfigurationFileContents() {
+		String workingDirectory = System.getProperty("user.dir");
+		String testDirectory = "\\test-data\\gui";
+		String configFile = "\\config.xml";
+		String jarFile = "\\guiTest.jar";
+		String exeFile = "\\guiTest.exe";
+		
+		String configFilePath = workingDirectory + testDirectory + configFile;
+		String jarFilePath = workingDirectory + testDirectory + jarFile;
+		String exeFilePath = workingDirectory + testDirectory + exeFile;
+		
+		String[] configurationFileContents = { configFilePath, "gui", "%java_home%", jarFilePath, exeFilePath };
+		
+		return configurationFileContents;
+	}
+	
+	private BaseConfigFileConfiguration createBaseConfigFileConfigutration(String[] configFileContent) {
+		
+		return new BaseConfigFileConfiguration(
+				configFileContent[0],
+				configFileContent[1],
+				configFileContent[2],
+				configFileContent[3],
+				configFileContent[4]	);
 	}
 }

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class BaseConfigFileConfigurationTest {
 
 	static BaseConfigFileConfiguration baseConfigFileConfiguration;
-	
+	; // TODO: Move all test files into test-data folder and change source code accordingly
 	@BeforeAll
 	static void initializeTestData() {
 		baseConfigFileConfiguration = new BaseConfigFileConfiguration("C:\\tmp\\test.xml", "gui", "C:\\Program Files\\Java\\jdk-17", "C:\\tmp\\sortbyvlaue.jar", "C:\\tmp\\myProgram.exe");
