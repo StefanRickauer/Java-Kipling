@@ -2,10 +2,10 @@ package com.rickauer.kipling;
 
 import org.apache.logging.log4j.*;
 
-public class Kipling {
+public final class Kipling {
 	
 	private static final String PROGRAM = "Kipling";
-	private static final String VERSION = "0.5";
+	private static final String VERSION = "0.95";
 	private static final String PROGRAM_AND_VERSION = PROGRAM + " [Version " + VERSION + "]";
 	
 	private static Logger kiplingLogger = LogManager.getLogger(Kipling.class.getName());

@@ -47,8 +47,6 @@ public final class ConfigFileCreator {
 		return configuration;
 	}
 
-	; // TODO: Refactor all request...Path()- Methods
-
 	private static String requestConfigurationFilePath(Scanner scanner) {
 
 		try {

@@ -8,15 +8,26 @@ import org.junit.jupiter.api.Test;
 class BaseConfigFileConfigurationTest {
 
 	static BaseConfigFileConfiguration baseConfigFileConfiguration;
-	; // TODO: Move all test files into test-data folder and change source code accordingly
+	static String workingDirectory, testDirectory, configFile, jarFile, exeFile, configFilePath, jarFilePath, exeFilePath;
+
 	@BeforeAll
 	static void initializeTestData() {
-		baseConfigFileConfiguration = new BaseConfigFileConfiguration("C:\\tmp\\test.xml", "gui", "C:\\Program Files\\Java\\jdk-17", "C:\\tmp\\sortbyvlaue.jar", "C:\\tmp\\myProgram.exe");
+		workingDirectory = System.getProperty("user.dir");
+		testDirectory = "\\test-data\\gui";
+		configFile = "\\config.xml";
+		jarFile = "\\guiTest.jar";
+		exeFile = "\\guiTest.exe";
+		
+		configFilePath = workingDirectory + testDirectory + configFile;
+		jarFilePath = workingDirectory + testDirectory + jarFile;
+		exeFilePath = workingDirectory + testDirectory + exeFile;
+		
+		baseConfigFileConfiguration = new BaseConfigFileConfiguration(configFilePath, "gui", "C:\\Program Files\\Java\\jdk-17", jarFilePath, exeFilePath);
 	}
 	
 	@Test
 	public void getConfigurationFilePathTest() {
-		assertEquals("C:\\tmp\\test.xml", baseConfigFileConfiguration.getConfigurationFilePath());
+		assertEquals(configFilePath, baseConfigFileConfiguration.getConfigurationFilePath());
 	}
 	
 	@Test
@@ -26,12 +37,12 @@ class BaseConfigFileConfigurationTest {
 	
 	@Test
 	public void getJARPathTest() {
-		assertEquals("C:\\tmp\\sortbyvlaue.jar", baseConfigFileConfiguration.getJARPath());
+		assertEquals(jarFilePath, baseConfigFileConfiguration.getJARPath());
 	}
 
 	@Test
 	public void getExecutablePathTest() {
-		assertEquals("C:\\tmp\\myProgram.exe", baseConfigFileConfiguration.getExecutablePath());
+		assertEquals(exeFilePath, baseConfigFileConfiguration.getExecutablePath());
 	}
 	
 	@Test

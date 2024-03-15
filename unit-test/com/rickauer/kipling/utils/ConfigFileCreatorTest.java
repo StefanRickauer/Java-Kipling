@@ -23,8 +23,6 @@ public class ConfigFileCreatorTest {
 
 	static Class<ConfigFileCreator> clazz;
 	
-	; // TODO: Move all test files into test-data folder and change source code accordingly
-	
 	@BeforeAll
 	static void initializeTestData() {
 		clazz = ConfigFileCreator.class;
@@ -56,12 +54,14 @@ public class ConfigFileCreatorTest {
 	
 	@Test
 	void requestConfigurationFilePathInvalidInputTestTwo() throws IllegalArgumentException, SecurityException {
-		mockUserInput("C:\\tmp\\test.xml");
+		
+		String configFilePath = createConfigurationFileContents()[0];
+		mockUserInput(configFilePath);
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
-			assertEquals("requestConfigurationFilePath(): Error: File 'C:\\tmp\\test.xml' already exists.", exception.getCause().getMessage());
+			assertEquals("requestConfigurationFilePath(): Error: File '" + configFilePath + "' already exists.", exception.getCause().getMessage());
 		} 
 		
 	}
@@ -145,11 +145,13 @@ public class ConfigFileCreatorTest {
 	
 	@Test
 	void requestJARPathTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		mockUserInput("C:\\tmp\\sortbyvalue.jar");
+		
+		String jarFilePath = createConfigurationFileContents()[3];
+		mockUserInput(jarFilePath);
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			String jarPath = (String) getStaticMethodByName("requestJARPath", scanner).invoke(null, scanner);
-			assertEquals("C:\\tmp\\sortbyvalue.jar", jarPath);
+			assertEquals(jarFilePath, jarPath);
 		}
 	}
 	
@@ -177,11 +179,13 @@ public class ConfigFileCreatorTest {
 	
 	@Test
 	void requestEXEPathTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		mockUserInput("C:\\tmp\\myProgram.exe");
+		
+		String exeFilePath = createConfigurationFileContents()[4];
+		mockUserInput(exeFilePath);
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			String jarPath = (String) getStaticMethodByName("requestEXEPath", scanner).invoke(null, scanner);
-			assertEquals("C:\\tmp\\myProgram.exe", jarPath);
+			assertEquals(exeFilePath, jarPath);
 		}
 	}
 	
