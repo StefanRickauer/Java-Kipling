@@ -8,11 +8,11 @@ public final class KiplingSystemTest {
 	
 	public static void main(String[] args) {
 		
-		testKiplingWithJarAndConfiguration();
+		testKiplingWithConfigurationFile();
 		
 	}
 	
-	static void testKiplingWithJarAndConfiguration() {
+	static void testKiplingWithConfigurationFile() {
 		
 		String configFilePath = System.getProperty("user.dir") + "\\test-data\\gui\\config.xml";
 		String exeFilePath = System.getProperty("user.dir") + "\\test-data\\gui\\guiTest.exe";
