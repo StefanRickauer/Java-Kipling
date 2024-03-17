@@ -34,9 +34,9 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 					configuration = args[i];
 				}
 				case "--ppt" -> {
-					configuration = System.getProperty("user.dir") + "\\configuration.xml";
 					BaseConfigFileConfiguration config = ConfigFileCreator.retrieveConfiguration();
 					ConfigFileCreator.saveConfigurationFile(config);
+					configuration = config.getConfigurationFilePath();
 				}
 				default -> {
 					System.err.println("Invalid argument: " + args[i]);
