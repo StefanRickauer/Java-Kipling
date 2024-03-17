@@ -22,7 +22,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		}
 		
 		String launch4jc = "", configuration = "";
-		
+		;// Add check if files in config file really exist
 		for (int i = 0; i < args.length; i++) {
 			switch(args[i]) {
 				case "--lnch" -> {
