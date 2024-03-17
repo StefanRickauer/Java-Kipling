@@ -3,6 +3,8 @@ package com.rickauer.kipling;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
+import com.rickauer.kipling.configuration.BaseConfigFileConfigurationTest;
+import com.rickauer.kipling.configuration.BaseKiplingConfigurationTest;
 import com.rickauer.kipling.utils.*;
 
 @Suite

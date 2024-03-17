@@ -1,4 +1,4 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.configuration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

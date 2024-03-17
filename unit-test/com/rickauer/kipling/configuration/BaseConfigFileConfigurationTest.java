@@ -1,11 +1,11 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.configuration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class BaseConfigFileConfigurationTest {
+public final class BaseConfigFileConfigurationTest {
 
 	static BaseConfigFileConfiguration baseConfigFileConfiguration;
 	static String workingDirectory, testDirectory, configFile, jarFile, exeFile, configFilePath, jarFilePath, exeFilePath;

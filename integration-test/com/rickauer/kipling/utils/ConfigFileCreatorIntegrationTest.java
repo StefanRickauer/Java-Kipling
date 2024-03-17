@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.rickauer.kipling.BaseConfigFileConfiguration;
+import com.rickauer.kipling.configuration.BaseConfigFileConfiguration;
 
 public class ConfigFileCreatorIntegrationTest {
 	

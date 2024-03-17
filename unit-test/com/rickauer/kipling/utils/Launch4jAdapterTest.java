@@ -1,4 +1,4 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.utils;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +7,7 @@ import java.io.File;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-class Launch4jAdapterTest {
+public final class Launch4jAdapterTest {
 
 	static Launch4jAdapter adapter, invalidAdapter;
 	static File destinaitonFile;

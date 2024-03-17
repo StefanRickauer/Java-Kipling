@@ -1,4 +1,4 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.configuration;
 
 public interface ConfigFileConfiguration {
 	public String getConfigurationFilePath();

@@ -2,6 +2,9 @@ package com.rickauer.kipling;
 
 import org.apache.logging.log4j.*;
 
+import com.rickauer.kipling.configuration.BaseKiplingConfiguration;
+import com.rickauer.kipling.utils.Launch4jAdapter;
+
 public final class Kipling {
 	
 	private static final String PROGRAM = "Kipling";

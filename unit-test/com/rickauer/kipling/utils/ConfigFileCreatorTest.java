@@ -17,7 +17,7 @@ import java.util.Scanner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.rickauer.kipling.BaseConfigFileConfiguration;
+import com.rickauer.kipling.configuration.BaseConfigFileConfiguration;
 
 public class ConfigFileCreatorTest {
 

@@ -1,4 +1,4 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.utils;
 
 import java.io.IOException;
 

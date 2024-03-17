@@ -1,4 +1,4 @@
-package com.rickauer.kipling;
+package com.rickauer.kipling.configuration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
-class BaseKiplingConfigurationTest {
+public final class BaseKiplingConfigurationTest {
 
 	@Test
 	void processCommandLineArgumentsTest() {

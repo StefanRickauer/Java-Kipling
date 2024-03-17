@@ -10,7 +10,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.rickauer.kipling.BaseConfigFileConfiguration;
+import com.rickauer.kipling.configuration.BaseConfigFileConfiguration;
 
 public final class ConfigFileCreator {
 
