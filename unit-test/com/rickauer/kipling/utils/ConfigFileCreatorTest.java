@@ -47,7 +47,7 @@ public class ConfigFileCreatorTest {
 		try (Scanner scanner = new Scanner(System.in)) {
 			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestConfigurationFilePath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
-			assertEquals("requestConfigurationFilePath(): Error: File 'C:\\some\\path\\someFile.docx' must be an XML file.", exception.getCause().getMessage());
+			assertEquals("requestConfigurationFilePath(): File type error: 'C:\\some\\path\\someFile.docx' must be of type 'xml'.", exception.getCause().getMessage());
 		}
 		
 	}
@@ -162,7 +162,7 @@ public class ConfigFileCreatorTest {
 		try (Scanner scanner = new Scanner(System.in)) {
 			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestJARPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
-			assertEquals("requestJARPath(): Error: File 'C:\\tmp\\test.xml' must be a JAR file.", exception.getCause().getMessage());
+			assertEquals("requestJARPath(): File type error: 'C:\\tmp\\test.xml' must be of type 'jar'.", exception.getCause().getMessage());
 		}
 	}
 	
@@ -196,7 +196,7 @@ public class ConfigFileCreatorTest {
 		try (Scanner scanner = new Scanner(System.in)) {
 			Exception exception = assertThrows(InvocationTargetException.class, () -> getStaticMethodByName("requestEXEPath", scanner).invoke(null, scanner));
 			assertEquals(RuntimeException.class, exception.getCause().getClass());
-			assertEquals("requestEXEPath(): Error: File 'C:\\tmp\\test.xml' must be an EXE file.", exception.getCause().getMessage());
+			assertEquals("requestEXEPath(): File type error: 'C:\\tmp\\test.xml' must be of type 'exe'.", exception.getCause().getMessage());
 		}
 	}
 	

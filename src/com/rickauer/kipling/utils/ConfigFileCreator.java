@@ -39,8 +39,7 @@ public final class ConfigFileCreator {
 		String exePath = requestEXEPath(scanner);
 
 		scanner.close();
-		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(configurationFilePath, headerType,
-				jdkPath, jarPath, exePath);
+		BaseConfigFileConfiguration configuration = new BaseConfigFileConfiguration(configurationFilePath, headerType, jdkPath, jarPath, exePath);
 
 		ConfigFileCreatorLogger.info("Executed createConfigurationFile().");
 
@@ -50,21 +49,14 @@ public final class ConfigFileCreator {
 	private static String requestConfigurationFilePath(Scanner scanner) {
 
 		try {
-			String configFilePath;
-
-			System.out.println("Please provide the path and name for the configuration file. The path entered will be created and must not be an existing file.");
-			configFilePath = scanner.next();
+			String configFilePath = requestInput(scanner, "Please provide the path and name for the configuration file. The path entered will be created and must not be an existing file.");
 
 			if (!configFilePath.endsWith(".xml")) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + configFilePath + "' must be an XML file.");
-				System.err.println("Error: File '" + configFilePath + "' must be an XML file.");
-				throw new RuntimeException("Error: File '" + configFilePath + "' must be an XML file.");
+				processWrongFileEnding("xml", configFilePath);
 			}
 
 			if (Files.exists(Paths.get(configFilePath))) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + configFilePath + "' already exists.");
-				System.err.println("Error: File '" + configFilePath + "' already exists.");
-				throw new RuntimeException("Error: File '" + configFilePath + "' already exists.");
+				processFileConflict(true, configFilePath);
 			}
 
 			return configFilePath;
@@ -76,13 +68,9 @@ public final class ConfigFileCreator {
 	private static String requestHeaderType(Scanner scanner) {
 
 		try {
-			String input;
+			String headerType = requestInput(scanner, "What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
 
-			System.out
-					.println("What kind of application do you want to build? \nType: g for GUI\nType: c for console\n");
-			input = scanner.next();
-
-			return switch (input) {
+			return switch (headerType) {
 				case "g" -> "gui";
 				case "c" -> "console";
 				default  -> "console";
@@ -100,18 +88,12 @@ public final class ConfigFileCreator {
 	private static String requestJDKPath(Scanner scanner) {
 
 		try {
-			String path;
+			String jdkPath = requestInput(scanner, "Please provide the path to the JDK.");
 
-			System.out.println("Please provide the path to the JDK.");
-
-			path = scanner.next();
-
-			if (!Files.exists(Paths.get(path))) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + path + "' does not exist.");
-				System.err.println("Error: File '" + path + "' does not exist.");
-				throw new RuntimeException("Error: File '" + path + "' does not exist.");
+			if (!Files.exists(Paths.get(jdkPath))) {
+				processFileConflict(false, jdkPath);
 			}
-			return path;
+			return jdkPath;
 		} catch (Exception e) {
 			throw new RuntimeException("requestJDKPath(): " + e.getMessage());
 		}
@@ -120,22 +102,14 @@ public final class ConfigFileCreator {
 	private static String requestJARPath(Scanner scanner) {
 
 		try {
-			String jarPath;
-
-			System.out.println("Please provide the path to the JAR file (runnable JAR!). The path entered must be an existing file.");
-
-			jarPath = scanner.next();
+			String jarPath = requestInput(scanner, "Please provide the path to the JAR file (runnable JAR!). The path entered must be an existing file.");
 
 			if (!jarPath.endsWith(".jar")) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + jarPath + "' must be a JAR file.");
-				System.err.println("Error: File '" + jarPath + "' must be a JAR file.");
-				throw new RuntimeException("Error: File '" + jarPath + "' must be a JAR file.");
+				processWrongFileEnding("jar", jarPath);
 			}
 
 			if (!Files.exists(Paths.get(jarPath))) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + jarPath + "' does not exist.");
-				System.err.println("Error: File '" + jarPath + "' does not exist.");
-				throw new RuntimeException("Error: File '" + jarPath + "' does not exist.");
+				processFileConflict(false, jarPath);
 			}
 			return jarPath;
 		} catch (Exception e) {
@@ -146,22 +120,35 @@ public final class ConfigFileCreator {
 	private static String requestEXEPath(Scanner scanner) {
 
 		try {
-			String exePath;
-
-			System.out.println("Please provide the path to the EXE file. The path entered will be created and must not be an existing file.");
-
-			exePath = scanner.next();
+			String exePath = requestInput(scanner, "Please provide the path to the EXE file. The path entered will be created and must not be an existing file.");
 
 			if (!exePath.endsWith(".exe")) {
-				ConfigFileCreatorLogger.fatal("Error: File '" + exePath + "' must be an EXE file.");
-				System.err.println("Error: File '" + exePath + "' must be an EXE file.");
-				throw new RuntimeException("Error: File '" + exePath + "' must be an EXE file.");
+				processWrongFileEnding("exe", exePath);
 			}
 
 			return exePath;
 		} catch (Exception e) {
 			throw new RuntimeException("requestEXEPath(): " + e.getMessage());
 		}
+	}
+	
+	private static String requestInput(Scanner scanner, String prompt) {
+		System.out.println(prompt);
+		return scanner.next();
+	}
+	
+	private static void processWrongFileEnding(String expectedFileEnding, String path) {
+		ConfigFileCreatorLogger.fatal("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
+		System.err.println("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
+		throw new RuntimeException("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
+	}
+	
+	private static void processFileConflict(boolean alreadyExists, String path) {
+		String existencePromt = alreadyExists ? "' already exists." : "' does not exist.";
+		
+		ConfigFileCreatorLogger.fatal("Error: File '" + path + existencePromt);
+		System.err.println("Error: File '" + path + existencePromt);
+		throw new RuntimeException("Error: File '" + path + existencePromt);
 	}
 
 	public static void saveConfigurationFile(BaseConfigFileConfiguration configuration) {
