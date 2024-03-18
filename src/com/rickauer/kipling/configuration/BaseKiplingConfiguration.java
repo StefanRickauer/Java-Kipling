@@ -3,6 +3,7 @@ package com.rickauer.kipling.configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.rickauer.kipling.utils.ConfigFileChecker;
 import com.rickauer.kipling.utils.ConfigFileCreator;
 
 public final class BaseKiplingConfiguration implements KiplingConfiguration {
@@ -22,7 +23,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		}
 		
 		String launch4jc = "", configuration = "";
-		;// Add check if files in config file really exist
+		
 		for (int i = 0; i < args.length; i++) {
 			switch(args[i]) {
 				case "--lnch" -> {
@@ -31,6 +32,9 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 				}
 				case "--conf" -> {
 					i++;
+					if (!ConfigFileChecker.configurationFileIsValid(args[i])) {
+						processInvalidInput("Invalid configuration file: ", args[i]);
+					}
 					configuration = args[i];
 				}
 				case "--ppt" -> {
@@ -39,9 +43,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 					configuration = config.getConfigurationFilePath();
 				}
 				default -> {
-					System.err.println("Invalid argument: " + args[i]);
-					baseConfigLogger.fatal("Invalid argument: " + args[i]);
-					throw new IllegalArgumentException("Invalid argument: " + args[i]);
+					processInvalidInput("Invalid argument: ", args[i]);
 				}
 			}
 		}
@@ -49,6 +51,12 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		baseConfigLogger.info("Executed processCommandLineArguments().");
 		
 		return new BaseKiplingConfiguration(launch4jc, configuration);		
+	}
+	
+	private static void processInvalidInput(String message, String argument) {
+		System.err.println(message + argument);
+		baseConfigLogger.fatal(message + argument);
+		throw new IllegalArgumentException(message + argument);
 	}
 	
 	public static void displayUsageMessage() {
