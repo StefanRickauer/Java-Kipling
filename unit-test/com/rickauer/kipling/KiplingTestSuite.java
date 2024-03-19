@@ -8,7 +8,7 @@ import com.rickauer.kipling.configuration.BaseKiplingConfigurationTest;
 import com.rickauer.kipling.utils.*;
 
 @Suite
-@SelectClasses({Launch4jAdapterTest.class, BaseKiplingConfigurationTest.class, BaseConfigFileConfigurationTest.class, ConfigFileCreatorTest.class})
+@SelectClasses({Launch4jAdapterTest.class, BaseKiplingConfigurationTest.class, BaseConfigFileConfigurationTest.class, ConfigFileCreatorTest.class, ConfigFileCheckerTest.class})
 public class KiplingTestSuite {
 	// No implementation needed. 
 }

@@ -32,7 +32,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 				}
 				case "--conf" -> {
 					i++;
-					if (!ConfigFileChecker.configurationFileIsValid(args[i])) {
+					if (!ConfigFileChecker.isConfigurationFileValid(args[i])) {
 						processInvalidInput("Invalid configuration file: ", args[i]);
 					}
 					configuration = args[i];

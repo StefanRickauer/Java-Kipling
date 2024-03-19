@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 public final class BaseKiplingConfigurationTest {
 
 	@Test
-	void processCommandLineArgumentsTest() {
+	void processCommandLineArgumentsTest() {		// Test will fail until config file checker is implemented 
 		
-		String[] mockArgs = new String[] {"--lnch", "launch4jc.exe", "--conf", "config.xml"};	
+		String configFilePath = System.getProperty("user.dir") + "\\test-data\\gui" + "\\config.xml";
+		String[] mockArgs = new String[] {"--lnch", "launch4jc.exe", "--conf", configFilePath};	
 		BaseKiplingConfiguration baseKiplingConfiguration = BaseKiplingConfiguration.processCommandLineArguments(mockArgs);
 		
 		assertEquals(mockArgs[1], baseKiplingConfiguration.getLaunch4jcPath());
