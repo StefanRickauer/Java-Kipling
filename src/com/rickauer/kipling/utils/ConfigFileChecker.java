@@ -9,6 +9,11 @@ import java.util.regex.Pattern;
 
 public final class ConfigFileChecker {
 	
+	private final static String HEADER_REGEX = "<headerType>(.+?)</headerType>";
+	private final static String JDK_REGEX = "<path>(.+?)</path>";
+	private final static String JAR_REGEX = "<jar>(.+?)</jar>";
+	private final static String EXE_REGEX = "<outfile>(.+?)</outfile>";
+	
 	private ConfigFileChecker() {
 		throw new UnsupportedOperationException("The utility class '" + ConfigFileChecker.class.getCanonicalName()
 				+ "' is not supposed to be instantiated");
@@ -41,34 +46,24 @@ public final class ConfigFileChecker {
 	
 	private static boolean isConfigurationFileContentValid(String content) {
 		
-		// TODO: Use regex to extract information such as jar file path
+		String headerType = extractContent(HEADER_REGEX, content);
+		String jdkPath = extractContent(JDK_REGEX, content);
+		String jarPath = extractContent(JAR_REGEX, content);
+		String exePath = extractContent(EXE_REGEX, content);
 		
-		String headerType = extractHeaderType(content);
-		String jdkPath = extractJDKPath(content);
-		String jarPath = extractJARPath(content);
-		String exePath = extractEXEPath(content);
+		ConfigFileContentChecker.checkHeaderTypeValidity(headerType);
+		ConfigFileContentChecker.checkJDKPathValidity(jdkPath);
+		ConfigFileContentChecker.checkJARPathValidity(jarPath);
+		ConfigFileContentChecker.checkEXEPathValidity(exePath);
 		
-		return false;
+		return true;
 	}
 	
-	; // Strategy pattern?
-	private static String extractHeaderType(String content) {
-		Pattern pattern = Pattern.compile("<headerType>(.+?)</headerType>", Pattern.DOTALL);
+	private static String extractContent(final String regex, final String content) {
+		Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(content);
 		matcher.find();
 		
 		return matcher.group(1);
-	}
-	
-	private static String extractJDKPath(String content) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	private static String extractJARPath(String content) {
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-	
-	private static String extractEXEPath(String content) {
-		throw new UnsupportedOperationException("Not implemented yet");
 	}
 }

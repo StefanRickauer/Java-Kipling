@@ -3,8 +3,6 @@ package com.rickauer.kipling.utils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,14 +48,7 @@ public final class ConfigFileCreator {
 
 		try {
 			String configFilePath = requestInput(scanner, "Please provide the path and name for the configuration file. The path entered will be created and must not be an existing file.");
-
-			if (!configFilePath.endsWith(".xml")) {
-				processWrongFileEnding("xml", configFilePath);
-			}
-
-			if (Files.exists(Paths.get(configFilePath))) {
-				processFileConflict(true, configFilePath);
-			}
+			ConfigFileContentChecker.checkConfigurationFileValidity(configFilePath);
 
 			return configFilePath;
 		} catch (Exception e) {
@@ -89,10 +80,8 @@ public final class ConfigFileCreator {
 
 		try {
 			String jdkPath = requestInput(scanner, "Please provide the path to the JDK.");
-
-			if (!Files.exists(Paths.get(jdkPath))) {
-				processFileConflict(false, jdkPath);
-			}
+			ConfigFileContentChecker.checkJDKPathValidity(jdkPath);
+			
 			return jdkPath;
 		} catch (Exception e) {
 			throw new RuntimeException("requestJDKPath(): " + e.getMessage());
@@ -103,14 +92,8 @@ public final class ConfigFileCreator {
 
 		try {
 			String jarPath = requestInput(scanner, "Please provide the path to the JAR file (runnable JAR!). The path entered must be an existing file.");
-
-			if (!jarPath.endsWith(".jar")) {
-				processWrongFileEnding("jar", jarPath);
-			}
-
-			if (!Files.exists(Paths.get(jarPath))) {
-				processFileConflict(false, jarPath);
-			}
+			ConfigFileContentChecker.checkJARPathValidity(jarPath);
+			
 			return jarPath;
 		} catch (Exception e) {
 			throw new RuntimeException("requestJARPath(): " + e.getMessage());
@@ -121,10 +104,7 @@ public final class ConfigFileCreator {
 
 		try {
 			String exePath = requestInput(scanner, "Please provide the path to the EXE file. The path entered will be created and must not be an existing file.");
-
-			if (!exePath.endsWith(".exe")) {
-				processWrongFileEnding("exe", exePath);
-			}
+			ConfigFileContentChecker.checkEXEPathValidity(exePath);
 
 			return exePath;
 		} catch (Exception e) {
@@ -137,20 +117,6 @@ public final class ConfigFileCreator {
 		return scanner.next();
 	}
 	
-	private static void processWrongFileEnding(String expectedFileEnding, String path) {
-		ConfigFileCreatorLogger.fatal("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
-		System.err.println("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
-		throw new RuntimeException("File type error: '" + path + "' must be of type '" + expectedFileEnding + "'.");
-	}
-	
-	private static void processFileConflict(boolean alreadyExists, String path) {
-		String existencePromt = alreadyExists ? "' already exists." : "' does not exist.";
-		
-		ConfigFileCreatorLogger.fatal("Error: File '" + path + existencePromt);
-		System.err.println("Error: File '" + path + existencePromt);
-		throw new RuntimeException("Error: File '" + path + existencePromt);
-	}
-
 	public static void saveConfigurationFile(BaseConfigFileConfiguration configuration) {
 
 		ConfigFileCreatorLogger.info("Saving configuration file to '" + configuration.getConfigurationFilePath() + "' ...");
