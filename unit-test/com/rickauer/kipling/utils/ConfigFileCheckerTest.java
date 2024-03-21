@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public final class ConfigFileCheckerTest {
 
-	; // TODO: Add more test cases
+	;// Add more test cases
 	@Test
 	void test() {
 		fail("Not yet implemented");
 	}
-
+	
 }
