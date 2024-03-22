@@ -37,7 +37,7 @@ public final class ConfigFileContentChecker {
 	
 	public static void checkJDKPathValidity(String jdkPath) {
 		
-		if (jdkPath.equals("%java_home%")) {	
+		if (jdkPath.equalsIgnoreCase("%java_home%")) {	
 			return;	
 		}
 		
