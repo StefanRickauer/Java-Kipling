@@ -7,7 +7,12 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public final class ConfigFileChecker {
+	
+	private static Logger ConfigFileCheckerLogger = LogManager.getLogger(ConfigFileChecker.class.getName());
 	
 	private final static String HEADER_REGEX = "<headerType>(.+?)</headerType>";
 	private final static String JDK_REGEX = "<path>(.+?)</path>";
@@ -21,9 +26,13 @@ public final class ConfigFileChecker {
 	
 	public static boolean isConfigurationFileValid(String path) {
 		
-		if (!pathExists(path)) {
+		ConfigFileCheckerLogger.info("Checking configuration file attributes ...");
+		
+		if (!pathExists(path) || !path.endsWith(".xml")) {
 			return false;
 		}
+		
+		ConfigFileCheckerLogger.info("Checked configuration file attributes.");
 		
 		Path filePath = Path.of(path);
 		String fileContent = getFileContent(filePath);
@@ -46,6 +55,8 @@ public final class ConfigFileChecker {
 	
 	private static boolean isConfigurationFileContentValid(String content) {
 		
+		ConfigFileCheckerLogger.info("Checking configuration file content ...");
+		
 		String headerType = extractContent(HEADER_REGEX, content);
 		String jdkPath = extractContent(JDK_REGEX, content);
 		String jarPath = extractContent(JAR_REGEX, content);
@@ -55,6 +66,8 @@ public final class ConfigFileChecker {
 		ConfigFileContentChecker.checkJDKPathValidity(jdkPath);
 		ConfigFileContentChecker.checkJARPathValidity(jarPath);
 		ConfigFileContentChecker.checkEXEPathValidity(exePath);
+		
+		ConfigFileCheckerLogger.info("Checked configuration file content.");
 		
 		return true;
 	}

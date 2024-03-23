@@ -6,10 +6,21 @@ import org.junit.jupiter.api.Test;
 
 public final class ConfigFileCheckerTest {
 
-	;// Add more test cases
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void isConfigurationFileValidValidInputTest() {
+		String configFile = System.getProperty("user.dir") + "\\test-data\\gui" + "\\config.xml";
+		assertTrue(ConfigFileChecker.isConfigurationFileValid(configFile));
 	}
 	
+	@Test
+	void isConfigurationFileValidInvalidInputTestOne() {
+		String invalidConfigFile = System.getProperty("user.dir") + "\\test-data\\gui" + "\\guiTest.jar";
+		assertFalse(ConfigFileChecker.isConfigurationFileValid(invalidConfigFile));
+	}
+	
+	@Test
+	void isConfigurationFileValidInvalidInputTestTwo() {
+		String invalidConfigFile = "C:\\invalid\\path";
+		assertFalse(ConfigFileChecker.isConfigurationFileValid(invalidConfigFile));
+	}
 }

@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 public final class ConfigFileContentChecker {
 	
-	private static Logger ConfigFileContentCheckerLogger = LogManager.getLogger(ConfigFileCreator.class.getName());
+	private static Logger ConfigFileContentCheckerLogger = LogManager.getLogger(ConfigFileContentChecker.class.getName());
 	
 	private ConfigFileContentChecker() {
 		throw new UnsupportedOperationException("The utility class '" + ConfigFileContentChecker.class.getCanonicalName()
@@ -26,6 +26,9 @@ public final class ConfigFileContentChecker {
 	}
 	
 	public static void checkConfigurationFileValidity(String configFilePath) {
+		
+		ConfigFileContentCheckerLogger.info("Checking configuration file validity ...");
+		
 		if (!configFilePath.endsWith(".xml")) {
 			processWrongFileEnding("xml", configFilePath);
 		}
@@ -33,9 +36,13 @@ public final class ConfigFileContentChecker {
 		if (Files.exists(Paths.get(configFilePath))) {
 			processFileConflict(true, configFilePath);
 		}
+		
+		ConfigFileContentCheckerLogger.info("Checked configuration file validity.");
 	}
 	
 	public static void checkJDKPathValidity(String jdkPath) {
+		
+		ConfigFileContentCheckerLogger.info("Checking jdk path validity ...");
 		
 		if (jdkPath.equalsIgnoreCase("%java_home%")) {	
 			return;	
@@ -44,9 +51,13 @@ public final class ConfigFileContentChecker {
 		if (!Files.exists(Paths.get(jdkPath))) {
 			processFileConflict(false, jdkPath);
 		}
+		
+		ConfigFileContentCheckerLogger.info("Checked jdk path validity.");
 	}
 	
 	public static void checkJARPathValidity(String jarPath) {
+		
+		ConfigFileContentCheckerLogger.info("Checking jar path validity ...");
 		
 		if (!jarPath.endsWith(".jar")) {
 			processWrongFileEnding("jar", jarPath);
@@ -55,13 +66,19 @@ public final class ConfigFileContentChecker {
 		if (!Files.exists(Paths.get(jarPath))) {
 			processFileConflict(false, jarPath);
 		}
+		
+		ConfigFileContentCheckerLogger.info("Checked jar path validity.");
 	}
 	
 	public static void checkEXEPathValidity(String exePath) {
 		
+		ConfigFileContentCheckerLogger.info("Checking exe path validity ...");
+		
 		if (!exePath.endsWith(".exe")) {
 			processWrongFileEnding("exe", exePath);
 		}
+		
+		ConfigFileContentCheckerLogger.info("Checked exe path validity.");
 	}
 	
 	private static void processWrongFileEnding(String expectedFileEnding, String path) {
