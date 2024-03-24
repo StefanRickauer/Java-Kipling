@@ -12,6 +12,12 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 	private final String lauch4jcPath;
 	private final String configurationFilePath;
 	
+
+	private BaseKiplingConfiguration(String launch4jcPath, String configurationFilePath) {
+		this.lauch4jcPath = launch4jcPath;
+		this.configurationFilePath = configurationFilePath;
+	}
+	
 	public static final BaseKiplingConfiguration processCommandLineArguments(String[] args) {
 		
 		baseConfigLogger.info("Executing processCommandLineArguments() ...");
@@ -22,7 +28,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 			throw new IllegalArgumentException("No arguments detected.");
 		}
 		
-		String launch4jc = "", configuration = "";
+		String launch4jc = "", configFilePath = "";
 		
 		for (int i = 0; i < args.length; i++) {
 			switch(args[i]) {
@@ -35,12 +41,12 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 					if (!ConfigFileChecker.isConfigurationFileValid(args[i])) {
 						processInvalidInput("Invalid configuration file: ", args[i]);
 					}
-					configuration = args[i];
+					configFilePath = args[i];
 				}
 				case "--ppt" -> {
 					BaseConfigFileConfiguration config = ConfigFileCreator.retrieveConfiguration();
 					ConfigFileCreator.saveConfigurationFile(config);
-					configuration = config.getConfigurationFilePath();
+					configFilePath = config.getConfigurationFilePath();
 				}
 				default -> {
 					processInvalidInput("Invalid argument: ", args[i]);
@@ -50,7 +56,7 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 		
 		baseConfigLogger.info("Executed processCommandLineArguments().");
 		
-		return new BaseKiplingConfiguration(launch4jc, configuration);		
+		return new BaseKiplingConfiguration(launch4jc, configFilePath);		
 	}
 	
 	private static void processInvalidInput(String message, String argument) {
@@ -73,11 +79,6 @@ public final class BaseKiplingConfiguration implements KiplingConfiguration {
 					--ppt
 						You will be prompted to provide the information necessary to create a config.xml file from scratch
 				""");
-	}
-	
-	private BaseKiplingConfiguration(String launch4jcPath, String configurationFilePath) {
-		this.lauch4jcPath = launch4jcPath;
-		this.configurationFilePath = configurationFilePath;
 	}
 	
 	@Override
