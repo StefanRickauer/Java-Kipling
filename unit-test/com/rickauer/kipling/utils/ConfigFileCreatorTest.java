@@ -121,11 +121,11 @@ public class ConfigFileCreatorTest {
 	
 	@Test
 	void requestJDKPathValidInputTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		mockUserInput("C:\\tmp"); // Assert with space in path failed.
+		mockUserInput(System.getProperty("user.dir")); // Assert with space in path failed.
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			String jdkPath = (String) getStaticMethodByName("requestJDKPath", scanner).invoke(null, scanner);
-			assertTrue(jdkPath.equals("C:\\tmp"));
+			assertTrue(jdkPath.equals(System.getProperty("user.dir")));
 		}
 	}
 	
