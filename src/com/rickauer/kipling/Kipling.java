@@ -17,7 +17,7 @@ public final class Kipling {
 		
 		try {
 			System.out.println(PROGRAM_AND_VERSION);
-			kiplingLogger.info("Starting...");
+			kiplingLogger.info(PROGRAM_AND_VERSION + " starting ...");
 			
 			kiplingLogger.info("Processing command line arguments ...");
 			BaseKiplingConfiguration configuration = BaseKiplingConfiguration.processCommandLineArguments(args);
@@ -28,7 +28,7 @@ public final class Kipling {
 			adapter.createExecutable(configuration.getConfigurationFilePath());
 			kiplingLogger.info("Called Launch4J.");
 
-			kiplingLogger.info("Finished.");
+			kiplingLogger.info(PROGRAM_AND_VERSION + " finished.");
 			System.out.println("Executable successfully created.");
 		} catch (Exception e) {
 			BaseKiplingConfiguration.displayUsageMessage();

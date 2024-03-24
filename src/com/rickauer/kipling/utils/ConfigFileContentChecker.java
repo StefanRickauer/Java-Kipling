@@ -45,14 +45,13 @@ public final class ConfigFileContentChecker {
 		ConfigFileContentCheckerLogger.info("Checking jdk path validity ...");
 		
 		if (jdkPath.equalsIgnoreCase("%java_home%")) {	
+			ConfigFileContentCheckerLogger.info("Checked jdk path validity.");
 			return;	
 		}
 		
 		if (!Files.exists(Paths.get(jdkPath))) {
 			processFileConflict(false, jdkPath);
 		}
-		
-		ConfigFileContentCheckerLogger.info("Checked jdk path validity.");
 	}
 	
 	public static void checkJARPathValidity(String jarPath) {
