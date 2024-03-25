@@ -3,6 +3,7 @@ package com.rickauer.kipling.utils;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -16,6 +17,17 @@ public final class ConfigFileContentCheckerTest {
 	@BeforeAll
 	static void initializeTestData() {
 		clazz = ConfigFileContentChecker.class;
+	}
+	
+	@Test
+	void callConstructor() throws NoSuchMethodException, SecurityException {
+		Constructor<ConfigFileContentChecker> constructor = clazz.getDeclaredConstructor();
+		constructor.setAccessible(true);
+		
+		Exception exception = assertThrows(InvocationTargetException.class, () -> constructor.newInstance());
+		assertEquals(UnsupportedOperationException.class, exception.getCause().getClass());
+		assertEquals("The utility class '" + ConfigFileContentChecker.class.getCanonicalName()
+				+ "' is not supposed to be instantiated", exception.getCause().getMessage());
 	}
 	
 	@Test

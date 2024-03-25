@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
@@ -26,6 +27,17 @@ public class ConfigFileCreatorTest {
 	@BeforeAll
 	static void initializeTestData() {
 		clazz = ConfigFileCreator.class;
+	}
+	
+	@Test
+	void callConstructor() throws NoSuchMethodException, SecurityException {
+		Constructor<ConfigFileCreator> constructor = clazz.getDeclaredConstructor();
+		constructor.setAccessible(true);
+		
+		Exception exception = assertThrows(InvocationTargetException.class, () -> constructor.newInstance());
+		assertEquals(UnsupportedOperationException.class, exception.getCause().getClass());
+		assertEquals("The utility class '" + ConfigFileCreator.class.getCanonicalName()
+				+ "' is not supposed to be instantiated", exception.getCause().getMessage());
 	}
 	
 	@Test
