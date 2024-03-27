@@ -15,7 +15,6 @@ class KiplingTest {
 	void callKiplingWihoutArgs() {
 		
 		String expectedOutput = """
-				
 				Usage: Kipling <option> <argument>
 				The following options are possible: 
 					--lnch <argument> 
