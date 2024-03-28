@@ -8,17 +8,17 @@ import org.junit.jupiter.api.Test;
 public final class BaseConfigFileConfigurationTest {
 
 	static BaseConfigFileConfiguration baseConfigFileConfiguration;
-	static String workingDirectory, testDirectory, configFile, jarFile, exeFile, configFilePath, jarFilePath, exeFilePath;
+	static String workingDirectory, testDirectory, validConfigFile, jarFile, exeFile, configFilePath, jarFilePath, exeFilePath;
 
 	@BeforeAll
 	static void initializeTestData() {
 		workingDirectory = System.getProperty("user.dir");
 		testDirectory = "\\test-data\\gui";
-		configFile = "\\config.xml";
+		validConfigFile = "\\config.xml";
 		jarFile = "\\guiTest.jar";
 		exeFile = "\\guiTest.exe";
 		
-		configFilePath = workingDirectory + testDirectory + configFile;
+		configFilePath = workingDirectory + testDirectory + validConfigFile;
 		jarFilePath = workingDirectory + testDirectory + jarFile;
 		exeFilePath = workingDirectory + testDirectory + exeFile;
 		

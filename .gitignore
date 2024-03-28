@@ -17,6 +17,9 @@ logs/
 *.tar.gz
 *.rar
 
+# configuration
+*.xml
+
 # Classpath and Project
 .classpath
 .project

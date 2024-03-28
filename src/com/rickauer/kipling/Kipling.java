@@ -3,6 +3,7 @@ package com.rickauer.kipling;
 import org.apache.logging.log4j.*;
 
 import com.rickauer.kipling.configuration.BaseKiplingConfiguration;
+import com.rickauer.kipling.utils.ConfigFileContentExtractor;
 import com.rickauer.kipling.utils.Launch4jAdapter;
 
 public final class Kipling {
@@ -29,7 +30,7 @@ public final class Kipling {
 			kiplingLogger.info("Called Launch4J.");
 
 			kiplingLogger.info(PROGRAM_AND_VERSION + " finished.");
-			System.out.println("Executable successfully created.");
+			System.out.println("Executable successfully created and saved to: '" + ConfigFileContentExtractor.getExePath(configuration.getConfigurationFilePath()) + "'.");
 		} catch (Exception e) {
 			BaseKiplingConfiguration.displayUsageMessage();
 			kiplingLogger.error("Could not finish task.", e);
