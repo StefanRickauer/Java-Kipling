@@ -32,7 +32,7 @@ public final class KiplingSystemTest {
 		Kipling.main(commandLineArguments);
 		
 		if (Files.exists(Paths.get(exeFilePath))) {
-			System.out.println("Successfully created .exe file. Trying to run exe.");
+			System.out.println("Successfully created .exe file. Trying to run '" + exeFilePath + "'.");
 			
 			try {
 				ProcessBuilder builder = new ProcessBuilder();
