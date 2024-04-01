@@ -33,7 +33,7 @@ public final class Kipling {
 			System.out.println("Executable successfully created and saved to: '" + ConfigFileContentExtractor.getExePath(configuration.getConfigurationFilePath()) + "'.");
 		} catch (Exception e) {
 			BaseKiplingConfiguration.displayUsageMessage();
-			kiplingLogger.error("Could not finish task.", e);
+			kiplingLogger.error("Error: Could not finish task.", e);
 		}
 	}
 }
